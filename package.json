@@ -6,6 +6,7 @@
     "format": "npx prettier --write",
     "lint": "npx eslint . --max-warnings=0",
     "format:check": "npx prettier . --check \"!**.ts\"",
+    "tsc:check": "npx tsc --noEmit --pretty --strict",
     "prepare": "husky",
     "test": "npx playwright test",
     "test:headed": "npm run test -- --headed",
