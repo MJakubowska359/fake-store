@@ -1,0 +1,15 @@
+{
+    "recommendations": [
+        "ms-playwright.playwright",
+        "jaktestowac-pl.vsc-playwright-snippets-ui",
+        "jaktestowac-pl.vsc-playwright-snippets",
+        "jaktestowac-pl.playwright-helpers",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "pkief.material-icon-theme",
+        "tal7aouy.rainbow-bracket",
+        "oderwat.indent-rainbow",
+        "streetsidesoftware.code-spell-checker",
+        "eamodio.gitlens"
+    ]
+}
