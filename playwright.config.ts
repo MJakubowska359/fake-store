@@ -9,6 +9,7 @@ export default defineConfig({
   workers: undefined,
   reporter: 'html',
   use: {
+    baseURL: 'https://fakestore.testelka.pl',
     actionTimeout: 0,
     trace: 'on',
     screenshot: 'only-on-failure',
