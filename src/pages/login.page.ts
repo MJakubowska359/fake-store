@@ -8,6 +8,7 @@ export class LoginPage extends BasePage {
   userLoginPasswordInput: Locator;
   loginButton: Locator;
   paragraph: Locator;
+  alert: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -17,6 +18,7 @@ export class LoginPage extends BasePage {
       name: 'Zaloguj się',
     });
     this.paragraph = this.page.locator('p');
+    this.alert = this.page.getByRole('alert');
   }
 
   async login(loginUserData: LoginUserModel): Promise<void> {
