@@ -1,6 +1,9 @@
-import { LoginUserModel } from '../src/models/user.model';
 import { LoginPage } from '../src/pages/login.page';
-import { testUser1 } from '../src/test-data/user.data';
+import {
+  incorrect_email,
+  testUser1,
+  without_password,
+} from '../src/test-data/user.data';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify login', () => {
@@ -26,13 +29,21 @@ test.describe('Verify login', () => {
   test('Reject login without password', async () => {
     // Arrange
     const expectedErrorText = 'Błąd: pole hasła jest puste.';
-    const LoginUserModelData: LoginUserModel = {
-      userEmail: testUser1.userEmail,
-      userPassword: '123A567',
-    };
 
     // Act
-    await loginPage.login(LoginUserModelData);
+    await loginPage.login(without_password);
+
+    // Assert
+    await expect(loginPage.alert).toContainText(expectedErrorText);
+  });
+
+  test('Reject login with incorrect email', async () => {
+    // Arrange
+    const expectedErrorText =
+      'Nieznany adres e-mail. Proszę sprawdzić ponownie lub wypróbować swoją nazwę użytkownika.';
+
+    // Act
+    await loginPage.login(incorrect_email);
 
     // Assert
     await expect(loginPage.alert).toContainText(expectedErrorText);
