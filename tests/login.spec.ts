@@ -1,6 +1,7 @@
 import { LoginPage } from '../src/pages/login.page';
 import {
   incorrect_email,
+  incorrect_username,
   testUser1,
   without_password,
 } from '../src/test-data/user.data';
@@ -47,5 +48,16 @@ test.describe('Verify login', () => {
 
     // Assert
     await expect(loginPage.alert).toContainText(expectedErrorText);
+  });
+
+  test('Reject login with incorrect username', async () => {
+    // Arrange
+    const expectedErrorText = `Błąd: brak ${incorrect_username.userEmail} wśród zarejestrowanych w witrynie użytkowników. Jeśli nie masz pewności co do nazwy użytkownika, użyj adresu e-mail.`;
+
+    // Act
+    await loginPage.login(incorrect_username);
+
+    // Assert
+    await expect(loginPage.alert).toHaveText(expectedErrorText);
   });
 });

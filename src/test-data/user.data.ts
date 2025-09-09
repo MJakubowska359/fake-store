@@ -14,3 +14,8 @@ export const incorrect_email: LoginUserModel = {
   userEmail: 'abracadabraTest@gmail.com',
   userPassword: process.env.USER_PASSWORD ?? '[NOT SET]',
 };
+
+export const incorrect_username: LoginUserModel = {
+  userEmail: 'wingardium_leviosa',
+  userPassword: process.env.USER_PASSWORD ?? '[NOT SET]',
+};
