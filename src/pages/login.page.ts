@@ -7,8 +7,13 @@ export class LoginPage extends BasePage {
   userLoginEmailInput: Locator;
   userLoginPasswordInput: Locator;
   loginButton: Locator;
+
   paragraph: Locator;
   alert: Locator;
+
+  rememberPasswordLink: Locator;
+  userLoginUsernameInput: Locator;
+  resetPasswordButton: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -17,8 +22,17 @@ export class LoginPage extends BasePage {
     this.loginButton = this.page.getByRole('button', {
       name: 'Zaloguj się',
     });
+
     this.paragraph = this.page.locator('p');
     this.alert = this.page.getByRole('alert');
+
+    this.rememberPasswordLink = this.page.getByRole('link', {
+      name: 'Nie pamiętasz hasła?',
+    });
+    this.userLoginUsernameInput = this.page.locator('#user_login');
+    this.resetPasswordButton = this.page.getByRole('button', {
+      name: 'Resetuj hasło',
+    });
   }
 
   async login(loginUserData: LoginUserModel): Promise<void> {
@@ -26,5 +40,14 @@ export class LoginPage extends BasePage {
     await this.userLoginPasswordInput.fill(loginUserData.userPassword);
     await this.userLoginPasswordInput.blur();
     await this.loginButton.click();
+  }
+
+  async clickResetPasswordOption(): Promise<void> {
+    await this.rememberPasswordLink.click();
+  }
+
+  async resetPassword(loginUserData: LoginUserModel): Promise<void> {
+    await this.userLoginUsernameInput.fill(loginUserData.userEmail);
+    await this.resetPasswordButton.click();
   }
 }

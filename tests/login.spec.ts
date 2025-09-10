@@ -60,4 +60,16 @@ test.describe('Verify login', () => {
     // Assert
     await expect(loginPage.alert).toHaveText(expectedErrorText);
   });
+
+  test('Remember password', async () => {
+    // Arrange
+    const expectedNotificationText = 'Wysłano e-mail do zresetowania hasła.';
+
+    // Act
+    await loginPage.clickResetPasswordOption();
+    await loginPage.resetPassword(testUser1);
+
+    // Assert
+    await expect(loginPage.alert).toHaveText(expectedNotificationText);
+  });
 });
