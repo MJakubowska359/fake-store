@@ -3,7 +3,10 @@ import { Locator, Page } from '@playwright/test';
 
 export class ShopPage extends BasePage {
   url = '/shop';
-  category: Locator;
+  categoryWindsurfing: Locator;
+  categoryClimbing: Locator;
+  categoryYoga: Locator;
+  categorySailing: Locator;
   product: Locator;
   addToWishlist: Locator;
 
@@ -11,7 +14,18 @@ export class ShopPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.category = this.page.locator('.product-category');
+    this.categoryWindsurfing = this.page.getByRole('heading', {
+      name: 'Windsurfing',
+    });
+    this.categoryClimbing = this.page.getByRole('heading', {
+      name: 'Wspinaczka',
+    });
+    this.categoryYoga = this.page.getByRole('heading', {
+      name: 'Yoga i pilates',
+    });
+    this.categorySailing = this.page.getByRole('heading', {
+      name: 'Żeglarstwo',
+    });
     this.product = page.locator('.type-product a');
     this.addToWishlist = page.getByText('Dodaj do listy życzeń');
 
@@ -19,7 +33,13 @@ export class ShopPage extends BasePage {
   }
 
   async addYogaInTuscanyToWishlist(): Promise<void> {
-    await this.category.nth(2).click();
+    await this.categoryYoga.click();
+    await this.product.nth(2).click();
+    await this.addToWishlist.click();
+  }
+
+  async addWindsurfingInGreeceToWishlist(): Promise<void> {
+    await this.categoryWindsurfing.click();
     await this.product.nth(2).click();
     await this.addToWishlist.click();
   }
