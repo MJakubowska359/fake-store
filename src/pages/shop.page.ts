@@ -43,4 +43,10 @@ export class ShopPage extends BasePage {
     await this.product.nth(2).click();
     await this.addToWishlist.click();
   }
+
+  async addClimbingInIslandPeakToWishlist(): Promise<void> {
+    await this.categoryClimbing.click();
+    await this.product.nth(2).click();
+    await this.addToWishlist.click();
+  }
 }
