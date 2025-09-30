@@ -49,4 +49,9 @@ export class ShopPage extends BasePage {
     await this.product.nth(2).click();
     await this.addToWishlist.click();
   }
+
+  async addClimbingViaFerrataToBasket(): Promise<void> {
+    await this.categoryClimbing.click();
+    await this.product.nth(4).click();
+  }
 }
