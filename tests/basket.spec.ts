@@ -34,4 +34,50 @@ test.describe('Verify basket', () => {
       expectedAlertAfterProductAdded,
     );
   });
+
+  test('Add coupon code on 250 PLN without limit in basket', async () => {
+    // Arrange
+    const expectedOrderSumBeforeAddedCoupon = '2 799,00 zł';
+    const expectedAlert = 'Kupon został pomyślnie użyty.';
+    const expectedOrderSumAfterAddedCoupon = '2 549,00 zł';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.addClimbingViaFerrataToBasket();
+    await productPage.clickAddToBasketButton();
+    await basketPage.goto();
+    await expect(basketPage.orderTotal.first()).toHaveText(
+      expectedOrderSumBeforeAddedCoupon,
+    );
+    await basketPage.addCoupon250PlnWithoutLimit();
+    await expect(productPage.alert).toContainText(expectedAlert);
+
+    // Assert
+    await expect(basketPage.orderTotal.first()).toHaveText(
+      expectedOrderSumAfterAddedCoupon,
+    );
+  });
+
+  test('Add coupon code on 10% value of order in basket', async () => {
+    // Arrange
+    const expectedOrderSumBeforeAddedCoupon = '2 799,00 zł';
+    const expectedAlert = 'Kupon został pomyślnie użyty.';
+    const expectedOrderSumAfterAddedCoupon = '2 519,10 zł';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.addClimbingViaFerrataToBasket();
+    await productPage.clickAddToBasketButton();
+    await basketPage.goto();
+    await expect(basketPage.orderTotal.first()).toHaveText(
+      expectedOrderSumBeforeAddedCoupon,
+    );
+    await basketPage.addCoupon10PercentValueOfOrder();
+    await expect(productPage.alert).toContainText(expectedAlert);
+
+    // Assert
+    await expect(basketPage.orderTotal.first()).toHaveText(
+      expectedOrderSumAfterAddedCoupon,
+    );
+  });
 });
