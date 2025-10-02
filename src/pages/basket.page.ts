@@ -39,4 +39,9 @@ export class BasketPage extends BasePage {
     await this.couponCodeInput.fill('10procent');
     await this.couponCodeButton.click();
   }
+
+  async addCouponMinimumValueOfOrder(): Promise<void> {
+    await this.couponCodeInput.fill('kwotowy300');
+    await this.couponCodeButton.click();
+  }
 }

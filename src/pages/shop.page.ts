@@ -50,8 +50,13 @@ export class ShopPage extends BasePage {
     await this.addToWishlist.click();
   }
 
-  async addClimbingViaFerrataToBasket(): Promise<void> {
+  async clickClimbingViaFerrata(): Promise<void> {
     await this.categoryClimbing.click();
     await this.product.nth(4).click();
+  }
+
+  async clickYogaInMalta(): Promise<void> {
+    await this.categoryYoga.click();
+    await this.product.nth(8).click();
   }
 }

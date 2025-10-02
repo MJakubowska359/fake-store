@@ -25,7 +25,7 @@ test.describe('Verify basket', () => {
     await basketPage.goto();
     await expect(basketPage.message).toHaveText(expectedMessageForEmptyBasket);
     await basketPage.clickBackToShopButton();
-    await shopPage.addClimbingViaFerrataToBasket();
+    await shopPage.clickClimbingViaFerrata();
     await expect(productPage.header.first()).toHaveText(expectedProductName);
     await productPage.clickAddToBasketButton();
 
@@ -43,7 +43,7 @@ test.describe('Verify basket', () => {
 
     // Act
     await shopPage.goto();
-    await shopPage.addClimbingViaFerrataToBasket();
+    await shopPage.clickClimbingViaFerrata();
     await productPage.clickAddToBasketButton();
     await basketPage.goto();
     await expect(basketPage.orderTotal.first()).toHaveText(
@@ -66,13 +66,36 @@ test.describe('Verify basket', () => {
 
     // Act
     await shopPage.goto();
-    await shopPage.addClimbingViaFerrataToBasket();
+    await shopPage.clickClimbingViaFerrata();
     await productPage.clickAddToBasketButton();
     await basketPage.goto();
     await expect(basketPage.orderTotal.first()).toHaveText(
       expectedOrderSumBeforeAddedCoupon,
     );
     await basketPage.addCoupon10PercentValueOfOrder();
+    await expect(productPage.alert).toContainText(expectedAlert);
+
+    // Assert
+    await expect(basketPage.orderTotal.first()).toHaveText(
+      expectedOrderSumAfterAddedCoupon,
+    );
+  });
+
+  test('Add coupon code on minimum value of order in basket (required value)', async () => {
+    // Arrange
+    const expectedOrderSumBeforeAddedCoupon = '3 299,00 zł';
+    const expectedAlert = 'Kupon został pomyślnie użyty.';
+    const expectedOrderSumAfterAddedCoupon = '2 999,00 zł';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickYogaInMalta();
+    await productPage.clickAddToBasketButton();
+    await basketPage.goto();
+    await expect(basketPage.orderTotal.first()).toHaveText(
+      expectedOrderSumBeforeAddedCoupon,
+    );
+    await basketPage.addCouponMinimumValueOfOrder();
     await expect(productPage.alert).toContainText(expectedAlert);
 
     // Assert
