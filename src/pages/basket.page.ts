@@ -10,6 +10,7 @@ export class BasketPage extends BasePage {
   couponCodeInput: Locator;
   couponCodeButton: Locator;
   orderTotal: Locator;
+  informationUnderCoupon: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -24,6 +25,9 @@ export class BasketPage extends BasePage {
       name: 'Zastosuj kupon',
     });
     this.orderTotal = page.locator('.order-total .amount');
+    this.informationUnderCoupon = page.getByText(
+      'Minimalna wartość zamówienia dla tego kuponu to 3 000,00 zł.',
+    );
   }
 
   async clickBackToShopButton(): Promise<void> {

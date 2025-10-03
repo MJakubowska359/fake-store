@@ -103,4 +103,22 @@ test.describe('Verify basket', () => {
       expectedOrderSumAfterAddedCoupon,
     );
   });
+
+  test('Add coupon code on minimum value of order in basket (value too low)', async () => {
+    // Arrange
+    const expectedHeaderInBasket = 'Koszyk';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickClimbingViaFerrata();
+    await productPage.clickAddToBasketButton();
+    await basketPage.goto();
+    await expect
+      .soft(basketPage.header.first())
+      .toHaveText(expectedHeaderInBasket);
+    await basketPage.addCouponMinimumValueOfOrder();
+
+    // Assert
+    await expect(basketPage.informationUnderCoupon).toBeVisible();
+  });
 });
