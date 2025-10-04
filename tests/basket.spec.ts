@@ -35,7 +35,7 @@ test.describe('Verify basket', () => {
     );
   });
 
-  test('Add coupon code on 250 PLN without limit in basket', async () => {
+  test('Add coupon on 250 PLN without limit in basket', async () => {
     // Arrange
     const expectedOrderSumBeforeAddedCoupon = '2 799,00 zł';
     const expectedAlert = 'Kupon został pomyślnie użyty.';
@@ -58,7 +58,7 @@ test.describe('Verify basket', () => {
     );
   });
 
-  test('Add coupon code on 10% value of order in basket', async () => {
+  test('Add coupon on 10% value of order in basket', async () => {
     // Arrange
     const expectedOrderSumBeforeAddedCoupon = '2 799,00 zł';
     const expectedAlert = 'Kupon został pomyślnie użyty.';
@@ -81,7 +81,7 @@ test.describe('Verify basket', () => {
     );
   });
 
-  test('Add coupon code on minimum value of order in basket (required value)', async () => {
+  test('Add coupon on minimum value of order in basket (required value)', async () => {
     // Arrange
     const expectedOrderSumBeforeAddedCoupon = '3 299,00 zł';
     const expectedAlert = 'Kupon został pomyślnie użyty.';
@@ -104,7 +104,7 @@ test.describe('Verify basket', () => {
     );
   });
 
-  test('Add coupon code on minimum value of order in basket (value too low)', async () => {
+  test('Add coupon on minimum value of order in basket (value too low)', async () => {
     // Arrange
     const expectedHeaderInBasket = 'Koszyk';
 
@@ -119,10 +119,10 @@ test.describe('Verify basket', () => {
     await basketPage.addCouponMinimumValueOfOrder();
 
     // Assert
-    await expect(basketPage.informationUnderCoupon).toBeVisible();
+    await expect(basketPage.errorMinimumValueOfOrder).toBeVisible();
   });
 
-  test('Add coupon code on product without promotion in basket', async () => {
+  test('Add coupon on product without discount in basket (product without discount)', async () => {
     // Arrange
     const expectedOrderSumBeforeAddedCoupon = '3 299,00 zł';
     const expectedAlert = 'Kupon został pomyślnie użyty.';
@@ -143,5 +143,23 @@ test.describe('Verify basket', () => {
     await expect(basketPage.orderTotal.first()).toHaveText(
       expectedOrderSumAfterAddedCoupon,
     );
+  });
+
+  test('Add coupon on product without discount in basket (discount product)', async () => {
+    // Arrange
+    const expectedHeaderInBasket = 'Koszyk';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickClimbingViaFerrata();
+    await productPage.clickAddToBasketButton();
+    await productPage.clickShowBasketButton();
+    await expect
+      .soft(basketPage.header.first())
+      .toHaveText(expectedHeaderInBasket);
+    await basketPage.addCouponForProductWithoutPromotion();
+
+    // Assert
+    await expect(basketPage.errorDiscountProduct).toBeVisible();
   });
 });

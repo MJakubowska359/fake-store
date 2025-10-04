@@ -10,7 +10,8 @@ export class BasketPage extends BasePage {
   couponCodeInput: Locator;
   couponCodeButton: Locator;
   orderTotal: Locator;
-  informationUnderCoupon: Locator;
+  errorMinimumValueOfOrder: Locator;
+  errorDiscountProduct: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -25,8 +26,11 @@ export class BasketPage extends BasePage {
       name: 'Zastosuj kupon',
     });
     this.orderTotal = page.locator('.order-total .amount');
-    this.informationUnderCoupon = page.getByText(
+    this.errorMinimumValueOfOrder = page.getByText(
       'Minimalna wartość zamówienia dla tego kuponu to 3 000,00 zł.',
+    );
+    this.errorDiscountProduct = page.getByText(
+      'Przepraszamy, ten kupon nie może być zastosowany do przecenionych produktów.',
     );
   }
 
