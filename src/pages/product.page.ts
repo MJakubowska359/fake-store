@@ -6,6 +6,7 @@ export class ProductPage extends BasePage {
 
   header: Locator;
   addToBasketButton: Locator;
+  showBasketButton: Locator;
   alert: Locator;
 
   constructor(page: Page) {
@@ -15,10 +16,18 @@ export class ProductPage extends BasePage {
     this.addToBasketButton = page.getByRole('button', {
       name: 'Dodaj do koszyka',
     });
+    this.showBasketButton = page.getByRole('link', {
+      name: 'Zobacz koszyk',
+    });
+
     this.alert = page.getByRole('alert');
   }
 
   async clickAddToBasketButton(): Promise<void> {
     await this.addToBasketButton.click();
+  }
+
+  async clickShowBasketButton(): Promise<void> {
+    await this.showBasketButton.click();
   }
 }

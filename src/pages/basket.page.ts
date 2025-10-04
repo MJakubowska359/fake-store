@@ -48,4 +48,9 @@ export class BasketPage extends BasePage {
     await this.couponCodeInput.fill('kwotowy300');
     await this.couponCodeButton.click();
   }
+
+  async addCouponForProductWithoutPromotion(): Promise<void> {
+    await this.couponCodeInput.fill('kwotowy300bezpromocji');
+    await this.couponCodeButton.click();
+  }
 }

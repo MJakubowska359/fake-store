@@ -121,4 +121,27 @@ test.describe('Verify basket', () => {
     // Assert
     await expect(basketPage.informationUnderCoupon).toBeVisible();
   });
+
+  test('Add coupon code on product without promotion in basket', async () => {
+    // Arrange
+    const expectedOrderSumBeforeAddedCoupon = '3 299,00 zł';
+    const expectedAlert = 'Kupon został pomyślnie użyty.';
+    const expectedOrderSumAfterAddedCoupon = '2 999,00 zł';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickYogaInMalta();
+    await productPage.clickAddToBasketButton();
+    await productPage.clickShowBasketButton();
+    await expect(basketPage.orderTotal.first()).toHaveText(
+      expectedOrderSumBeforeAddedCoupon,
+    );
+    await basketPage.addCouponForProductWithoutPromotion();
+    await expect(productPage.alert).toContainText(expectedAlert);
+
+    // Assert
+    await expect(basketPage.orderTotal.first()).toHaveText(
+      expectedOrderSumAfterAddedCoupon,
+    );
+  });
 });
