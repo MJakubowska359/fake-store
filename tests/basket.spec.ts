@@ -162,4 +162,27 @@ test.describe('Verify basket', () => {
     // Assert
     await expect(basketPage.errorDiscountProduct).toBeVisible();
   });
+
+  test('Add coupon on product from windsurfing category in basket (windsurfing category)', async () => {
+    // Arrange
+    const expectedOrderSumBeforeAddedCoupon = '3 400,00 zł';
+    const expectedAlert = 'Kupon został pomyślnie użyty.';
+    const expectedOrderSumAfterAddedCoupon = '3 050,00 zł';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickWindsurfingInEgypt();
+    await productPage.clickAddToBasketButton();
+    await productPage.clickShowBasketButton();
+    await expect(basketPage.orderTotal.first()).toHaveText(
+      expectedOrderSumBeforeAddedCoupon,
+    );
+    await basketPage.addCouponForProductFromWindsurfingCategory();
+    await expect(productPage.alert).toContainText(expectedAlert);
+
+    // Assert
+    await expect(basketPage.orderTotal.first()).toHaveText(
+      expectedOrderSumAfterAddedCoupon,
+    );
+  });
 });
