@@ -59,4 +59,9 @@ export class ShopPage extends BasePage {
     await this.categoryYoga.click();
     await this.product.nth(8).click();
   }
+
+  async clickWindsurfingInEgypt(): Promise<void> {
+    await this.categoryWindsurfing.click();
+    await this.product.first().click();
+  }
 }

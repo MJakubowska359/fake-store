@@ -185,4 +185,22 @@ test.describe('Verify basket', () => {
       expectedOrderSumAfterAddedCoupon,
     );
   });
+
+  test('Add coupon on product from windsurfing category in basket (yoga category)', async () => {
+    // Arrange
+    const expectedHeaderInBasket = 'Koszyk';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickYogaInMalta();
+    await productPage.clickAddToBasketButton();
+    await productPage.clickShowBasketButton();
+    await expect
+      .soft(basketPage.header.first())
+      .toHaveText(expectedHeaderInBasket);
+    await basketPage.addCouponForProductFromWindsurfingCategory();
+
+    // Assert
+    await expect(basketPage.errorChosenProduct).toBeVisible();
+  });
 });

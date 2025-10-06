@@ -12,6 +12,7 @@ export class BasketPage extends BasePage {
   orderTotal: Locator;
   errorMinimumValueOfOrder: Locator;
   errorDiscountProduct: Locator;
+  errorChosenProduct: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -31,6 +32,9 @@ export class BasketPage extends BasePage {
     );
     this.errorDiscountProduct = page.getByText(
       'Przepraszamy, ten kupon nie może być zastosowany do przecenionych produktów.',
+    );
+    this.errorChosenProduct = page.getByText(
+      'Przepraszamy, tego kuponu nie można zastosować do wybranych produktów.',
     );
   }
 
