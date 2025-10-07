@@ -203,4 +203,22 @@ test.describe('Verify basket', () => {
     // Assert
     await expect(basketPage.errorChosenProduct).toBeVisible();
   });
+
+  test('Add used coupon in basket', async () => {
+    // Arrange
+    const expectedHeaderInBasket = 'Koszyk';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickYogaInMalta();
+    await productPage.clickAddToBasketButton();
+    await productPage.clickShowBasketButton();
+    await expect
+      .soft(basketPage.header.first())
+      .toHaveText(expectedHeaderInBasket);
+    await basketPage.addUsedCoupon();
+
+    // Assert
+    await expect(basketPage.errorUsedCoupon).toBeVisible();
+  });
 });

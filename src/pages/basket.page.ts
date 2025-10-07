@@ -13,6 +13,7 @@ export class BasketPage extends BasePage {
   errorMinimumValueOfOrder: Locator;
   errorDiscountProduct: Locator;
   errorChosenProduct: Locator;
+  errorUsedCoupon: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -36,6 +37,7 @@ export class BasketPage extends BasePage {
     this.errorChosenProduct = page.getByText(
       'Przepraszamy, tego kuponu nie można zastosować do wybranych produktów.',
     );
+    this.errorUsedCoupon = page.getByText('Ten kupon stracił ważność');
   }
 
   async clickBackToShopButton(): Promise<void> {
@@ -64,6 +66,11 @@ export class BasketPage extends BasePage {
 
   async addCouponForProductFromWindsurfingCategory(): Promise<void> {
     await this.couponCodeInput.fill('windsurfing350');
+    await this.couponCodeButton.click();
+  }
+
+  async addUsedCoupon(): Promise<void> {
+    await this.couponCodeInput.fill('starośćnieradość');
     await this.couponCodeButton.click();
   }
 }
