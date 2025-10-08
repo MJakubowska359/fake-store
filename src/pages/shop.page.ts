@@ -9,6 +9,7 @@ export class ShopPage extends BasePage {
   categorySailing: Locator;
   product: Locator;
   addToWishlist: Locator;
+  quantityInput: Locator;
 
   submitMessage: Locator;
 
@@ -28,6 +29,9 @@ export class ShopPage extends BasePage {
     });
     this.product = page.locator('.type-product a');
     this.addToWishlist = page.getByText('Dodaj do listy życzeń');
+    this.quantityInput = page.getByRole('spinbutton', {
+      name: 'Ilość produktu',
+    });
 
     this.submitMessage = page.locator('[id$="popup-message"]');
   }
@@ -63,5 +67,9 @@ export class ShopPage extends BasePage {
   async clickWindsurfingInEgypt(): Promise<void> {
     await this.categoryWindsurfing.click();
     await this.product.first().click();
+  }
+
+  async addFullProductQuantityToBasket(): Promise<void> {
+    await this.quantityInput.fill('14536');
   }
 }
