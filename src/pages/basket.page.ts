@@ -5,8 +5,10 @@ export class BasketPage extends BasePage {
   url = '/koszyk';
 
   header: Locator;
+  deleteIcon: Locator;
+  productNameInTable: Locator;
   message: Locator;
-  backToShopButton: Locator;
+  backToShopLink: Locator;
   couponCodeInput: Locator;
   couponCodeButton: Locator;
   orderTotal: Locator;
@@ -14,13 +16,17 @@ export class BasketPage extends BasePage {
   errorDiscountProduct: Locator;
   errorChosenProduct: Locator;
   errorUsedCoupon: Locator;
+  undoLink: Locator;
+  productTable: Locator;
 
   constructor(page: Page) {
     super(page);
 
     this.header = page.getByRole('heading');
+    this.deleteIcon = page.locator('.remove');
+    this.productNameInTable = page.locator('td.product-name');
     this.message = page.locator('.wc-empty-cart-message');
-    this.backToShopButton = page.getByRole('link', {
+    this.backToShopLink = page.getByRole('link', {
       name: 'Wróć do sklepu',
     });
     this.couponCodeInput = page.getByRole('textbox', { name: 'Kupon' });
@@ -38,10 +44,12 @@ export class BasketPage extends BasePage {
       'Przepraszamy, tego kuponu nie można zastosować do wybranych produktów.',
     );
     this.errorUsedCoupon = page.getByText('Ten kupon stracił ważność');
+    this.undoLink = page.getByRole('link', { name: 'Cofnij?' });
+    this.productTable = page.locator('.cart_item');
   }
 
   async clickBackToShopButton(): Promise<void> {
-    await this.backToShopButton.click();
+    await this.backToShopLink.click();
   }
 
   async addCoupon250PlnWithoutLimit(): Promise<void> {
@@ -72,5 +80,13 @@ export class BasketPage extends BasePage {
   async addUsedCoupon(): Promise<void> {
     await this.couponCodeInput.fill('starośćnieradość');
     await this.couponCodeButton.click();
+  }
+
+  async removeProductFromBasket(): Promise<void> {
+    await this.deleteIcon.click();
+  }
+
+  async clickUndoOption(): Promise<void> {
+    await this.undoLink.click();
   }
 }

@@ -221,4 +221,22 @@ test.describe('Verify basket', () => {
     // Assert
     await expect(basketPage.errorUsedCoupon).toBeVisible();
   });
+
+  test('Restore removed product to basket', async () => {
+    // Arrange
+    const expectedProductName = 'Zmień swoją sylwetkę! Yoga na Malcie';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickYogaInMalta();
+    await productPage.clickAddToBasketButton();
+    await productPage.clickShowBasketButton();
+    await expect(basketPage.productTable).toBeVisible();
+    await basketPage.removeProductFromBasket();
+    await expect(basketPage.productTable).toBeHidden();
+    await basketPage.clickUndoOption();
+
+    // Assert
+    await expect(basketPage.productNameInTable).toHaveText(expectedProductName);
+  });
 });
