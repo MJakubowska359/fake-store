@@ -11,10 +11,10 @@ test.describe('Verify basket', () => {
     productPage = new ProductPage(page);
   });
 
-  test('Add too much amount of product to basket', async () => {
+  test('Add too many of the product to the basket', async () => {
     // Arrange
 
-    const expectedAlertText =
+    const expectedAlertContent =
       'Nie możesz dodać takiej ilości do koszyka — w magazynie posiadamy 14536 a w koszyku masz już 1.';
 
     // Act
@@ -25,6 +25,6 @@ test.describe('Verify basket', () => {
     await productPage.clickAddToBasketButton();
 
     // Assert
-    await expect(productPage.alert).toContainText(expectedAlertText);
+    await expect(productPage.alert).toContainText(expectedAlertContent);
   });
 });

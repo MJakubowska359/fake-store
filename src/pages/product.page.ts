@@ -4,22 +4,23 @@ import { Locator, Page } from '@playwright/test';
 export class ProductPage extends BasePage {
   url = '/product';
 
-  header: Locator;
   addToBasketButton: Locator;
-  showBasketButton: Locator;
+  showBasketLink: Locator;
+
+  header: Locator;
   alert: Locator;
 
   constructor(page: Page) {
     super(page);
 
-    this.header = page.getByRole('heading');
     this.addToBasketButton = page.getByRole('button', {
       name: 'Dodaj do koszyka',
     });
-    this.showBasketButton = page.getByRole('link', {
+    this.showBasketLink = page.getByRole('link', {
       name: 'Zobacz koszyk',
     });
 
+    this.header = page.getByRole('heading');
     this.alert = page.getByRole('alert');
   }
 
@@ -28,6 +29,6 @@ export class ProductPage extends BasePage {
   }
 
   async clickShowBasketButton(): Promise<void> {
-    await this.showBasketButton.click();
+    await this.showBasketLink.click();
   }
 }
