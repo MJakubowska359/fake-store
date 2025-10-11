@@ -4,10 +4,12 @@ import { Locator, Page } from '@playwright/test';
 
 export class RegisterPage extends BasePage {
   url = '/moje-konto';
+
   userRegisterEmailInput: Locator;
   userRegisterPasswordInput: Locator;
   registerButton: Locator;
-  paragraph: Locator;
+
+  header: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -16,7 +18,8 @@ export class RegisterPage extends BasePage {
     this.registerButton = this.page.getByRole('button', {
       name: 'Zarejestruj się',
     });
-    this.paragraph = this.page.locator('p');
+
+    this.header = this.page.getByRole('heading');
   }
 
   async register(registerUserData: RegisterUserModel): Promise<void> {

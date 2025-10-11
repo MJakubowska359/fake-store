@@ -14,16 +14,14 @@ test.describe('Verify register', () => {
     await registerPage.goto();
   });
 
-  test('Register with correct data', async () => {
+  test('Register using correct data', async () => {
     // Arrange
-    const expectedWelcomeText = 'Witaj';
+    const expectedHeader = 'Moje konto';
 
     // Act
     await registerPage.register(registerUserData);
 
     // Assert
-    await expect(registerPage.paragraph.nth(1)).toContainText(
-      expectedWelcomeText,
-    );
+    await expect(registerPage.header).toHaveText(expectedHeader);
   });
 });
