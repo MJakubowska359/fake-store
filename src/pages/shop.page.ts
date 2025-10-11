@@ -72,4 +72,8 @@ export class ShopPage extends BasePage {
   async addFullProductQuantityToBasket(): Promise<void> {
     await this.quantityInput.fill('14536');
   }
+
+  async addTwoQuantityOfProduct(): Promise<void> {
+    await this.quantityInput.fill('2');
+  }
 }

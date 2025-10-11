@@ -239,4 +239,23 @@ test.describe('Verify basket', () => {
     // Assert
     await expect(basketPage.productNameInTable).toHaveText(expectedProductName);
   });
+
+  test('Update the quantity of the product in the basket', async () => {
+    // Arrange
+    const expectedAlert = 'Koszyk zaktualizowany.';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickClimbingViaFerrata();
+    await shopPage.addTwoQuantityOfProduct();
+    await productPage.clickAddToBasketButton();
+    await productPage.clickShowBasketButton();
+    await expect(basketPage.updateBasketButton).toBeDisabled();
+    await basketPage.lowerQuantityOfProductInBasket();
+    await expect(basketPage.updateBasketButton).toBeEnabled();
+    await basketPage.clickUpdateBasketButton();
+
+    // Assert
+    await expect(basketPage.alert).toHaveText(expectedAlert);
+  });
 });
