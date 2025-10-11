@@ -3,6 +3,7 @@ import { Locator, Page } from '@playwright/test';
 
 export class ShopPage extends BasePage {
   url = '/shop';
+
   categoryWindsurfing: Locator;
   categoryClimbing: Locator;
   categoryYoga: Locator;
@@ -10,8 +11,6 @@ export class ShopPage extends BasePage {
   product: Locator;
   addToWishlist: Locator;
   quantityInput: Locator;
-
-  submitMessage: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -32,8 +31,6 @@ export class ShopPage extends BasePage {
     this.quantityInput = page.getByRole('spinbutton', {
       name: 'Ilość produktu',
     });
-
-    this.submitMessage = page.locator('[id$="popup-message"]');
   }
 
   async addYogaInTuscanyToWishlist(): Promise<void> {

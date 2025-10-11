@@ -8,6 +8,7 @@ export class ProductPage extends BasePage {
   showBasketLink: Locator;
 
   header: Locator;
+  popup: Locator;
   alert: Locator;
 
   constructor(page: Page) {
@@ -21,6 +22,7 @@ export class ProductPage extends BasePage {
     });
 
     this.header = page.getByRole('heading');
+    this.popup = page.locator('[id$="popup-message"]');
     this.alert = page.getByRole('alert');
   }
 
