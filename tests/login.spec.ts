@@ -16,60 +16,60 @@ test.describe('Verify login', () => {
     await loginPage.goto();
   });
 
-  test('Login with correct credentials', async () => {
+  test('Log in with correct credentials', async () => {
     // Arrange
-    const expectedWelcomeText = 'Witaj';
+    const expectedHeader = 'Moje konto';
 
     // Act
     await loginPage.login(testUser1);
 
     // Assert
-    await expect(loginPage.paragraph.nth(1)).toContainText(expectedWelcomeText);
+    await expect(loginPage.header).toHaveText(expectedHeader);
   });
 
-  test('Reject login without password', async () => {
+  test('Reject login attempts without a password', async () => {
     // Arrange
-    const expectedErrorText = 'Błąd: pole hasła jest puste.';
+    const expectedAlertContent = 'Błąd: pole hasła jest puste.';
 
     // Act
     await loginPage.login(without_password);
 
     // Assert
-    await expect(loginPage.alert).toContainText(expectedErrorText);
+    await expect(loginPage.alert).toHaveText(expectedAlertContent);
   });
 
-  test('Reject login with incorrect email', async () => {
+  test('Reject login attempts with an incorrect email', async () => {
     // Arrange
-    const expectedErrorText =
+    const expectedAlertContent =
       'Nieznany adres e-mail. Proszę sprawdzić ponownie lub wypróbować swoją nazwę użytkownika.';
 
     // Act
     await loginPage.login(incorrect_email);
 
     // Assert
-    await expect(loginPage.alert).toContainText(expectedErrorText);
+    await expect(loginPage.alert).toHaveText(expectedAlertContent);
   });
 
-  test('Reject login with incorrect username', async () => {
+  test('Reject login attempts with an incorrect username', async () => {
     // Arrange
-    const expectedErrorText = `Błąd: brak ${incorrect_username.userEmail} wśród zarejestrowanych w witrynie użytkowników. Jeśli nie masz pewności co do nazwy użytkownika, użyj adresu e-mail.`;
+    const expectedAlertContent = `Błąd: brak ${incorrect_username.userEmail} wśród zarejestrowanych w witrynie użytkowników. Jeśli nie masz pewności co do nazwy użytkownika, użyj adresu e-mail.`;
 
     // Act
     await loginPage.login(incorrect_username);
 
     // Assert
-    await expect(loginPage.alert).toHaveText(expectedErrorText);
+    await expect(loginPage.alert).toHaveText(expectedAlertContent);
   });
 
-  test('Remember password', async () => {
+  test('Reset password', async () => {
     // Arrange
-    const expectedNotificationText = 'Wysłano e-mail do zresetowania hasła.';
+    const expectedNotificationContent = 'Wysłano e-mail do zresetowania hasła.';
 
     // Act
     await loginPage.clickResetPasswordOption();
     await loginPage.resetPassword(testUser1);
 
     // Assert
-    await expect(loginPage.alert).toHaveText(expectedNotificationText);
+    await expect(loginPage.alert).toHaveText(expectedNotificationContent);
   });
 });

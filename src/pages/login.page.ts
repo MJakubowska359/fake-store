@@ -4,16 +4,16 @@ import { Locator, Page } from '@playwright/test';
 
 export class LoginPage extends BasePage {
   url = '/moje-konto';
+
   userLoginEmailInput: Locator;
   userLoginPasswordInput: Locator;
   loginButton: Locator;
-
-  paragraph: Locator;
-  alert: Locator;
-
   rememberPasswordLink: Locator;
   userLoginUsernameInput: Locator;
   resetPasswordButton: Locator;
+
+  header: Locator;
+  alert: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -22,10 +22,6 @@ export class LoginPage extends BasePage {
     this.loginButton = this.page.getByRole('button', {
       name: 'Zaloguj się',
     });
-
-    this.paragraph = this.page.locator('p');
-    this.alert = this.page.getByRole('alert');
-
     this.rememberPasswordLink = this.page.getByRole('link', {
       name: 'Nie pamiętasz hasła?',
     });
@@ -33,6 +29,9 @@ export class LoginPage extends BasePage {
     this.resetPasswordButton = this.page.getByRole('button', {
       name: 'Resetuj hasło',
     });
+
+    this.header = this.page.getByRole('heading');
+    this.alert = this.page.getByRole('alert');
   }
 
   async login(loginUserData: LoginUserModel): Promise<void> {
