@@ -5,10 +5,9 @@ export class BasketPage extends BasePage {
   url = '/koszyk';
 
   header: Locator;
-  deleteIcon: Locator;
+  deleteIconInTable: Locator;
   productNameInTable: Locator;
   quantityProductInTable: Locator;
-  message: Locator;
   backToShopLink: Locator;
   couponCodeInput: Locator;
   couponCodeButton: Locator;
@@ -18,18 +17,20 @@ export class BasketPage extends BasePage {
   errorChosenProduct: Locator;
   errorUsedCoupon: Locator;
   undoLink: Locator;
-  productTable: Locator;
+  productTableInBasket: Locator;
   updateBasketButton: Locator;
+
+  information: Locator;
   alert: Locator;
 
   constructor(page: Page) {
     super(page);
 
     this.header = page.getByRole('heading');
-    this.deleteIcon = page.locator('.remove');
+    this.productTableInBasket = page.locator('.cart_item');
+    this.deleteIconInTable = page.locator('.remove');
     this.productNameInTable = page.locator('td.product-name');
     this.quantityProductInTable = page.getByLabel('Ilość produktu');
-    this.message = page.locator('.wc-empty-cart-message');
     this.backToShopLink = page.getByRole('link', {
       name: 'Wróć do sklepu',
     });
@@ -49,10 +50,11 @@ export class BasketPage extends BasePage {
     );
     this.errorUsedCoupon = page.getByText('Ten kupon stracił ważność');
     this.undoLink = page.getByRole('link', { name: 'Cofnij?' });
-    this.productTable = page.locator('.cart_item');
     this.updateBasketButton = page.getByRole('button', {
       name: 'Zaktualizuj koszyk',
     });
+
+    this.information = page.locator('.cart-empty');
     this.alert = page.getByRole('alert');
   }
 
@@ -91,7 +93,7 @@ export class BasketPage extends BasePage {
   }
 
   async removeProductFromBasket(): Promise<void> {
-    await this.deleteIcon.click();
+    await this.deleteIconInTable.click();
   }
 
   async clickUndoOption(): Promise<void> {

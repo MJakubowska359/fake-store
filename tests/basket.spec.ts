@@ -14,16 +14,16 @@ test.describe('Verify basket', () => {
     productPage = new ProductPage(page);
   });
 
-  test('Add product to basket', async () => {
+  test('Add the product to the basket', async () => {
     // Arrange
-    const expectedMessageForEmptyBasket = 'Twój koszyk jest pusty.';
+    const expectedInfoForEmptyBasket = 'Twój koszyk jest pusty.';
     const expectedProductName = 'Wspinaczka Via Ferraty';
-    const expectedAlertAfterProductAdded =
+    const expectedAlertContentAfterProductIsAdded =
       '„Wspinaczka Via Ferraty“ został dodany do koszyka.';
 
     // Act
     await basketPage.goto();
-    await expect(basketPage.message).toHaveText(expectedMessageForEmptyBasket);
+    await expect(basketPage.information).toHaveText(expectedInfoForEmptyBasket);
     await basketPage.clickBackToShopButton();
     await shopPage.clickClimbingViaFerrata();
     await expect(productPage.header.first()).toHaveText(expectedProductName);
@@ -31,15 +31,15 @@ test.describe('Verify basket', () => {
 
     // Assert
     await expect(productPage.alert).toContainText(
-      expectedAlertAfterProductAdded,
+      expectedAlertContentAfterProductIsAdded,
     );
   });
 
-  test('Add coupon on 250 PLN without limit in basket', async () => {
+  test('Apply a 250 PLN coupon to the basket (no limits)', async () => {
     // Arrange
-    const expectedOrderSumBeforeAddedCoupon = '2 799,00 zł';
-    const expectedAlert = 'Kupon został pomyślnie użyty.';
-    const expectedOrderSumAfterAddedCoupon = '2 549,00 zł';
+    const expectedOrderTotalBeforeCouponIsAdded = '2 799,00 zł';
+    const expectedAlertContent = 'Kupon został pomyślnie użyty.';
+    const expectedOrderTotalAfterCouponIsAdded = '2 549,00 zł';
 
     // Act
     await shopPage.goto();
@@ -47,22 +47,22 @@ test.describe('Verify basket', () => {
     await productPage.clickAddToBasketButton();
     await basketPage.goto();
     await expect(basketPage.orderTotal.first()).toHaveText(
-      expectedOrderSumBeforeAddedCoupon,
+      expectedOrderTotalBeforeCouponIsAdded,
     );
     await basketPage.addCoupon250PlnWithoutLimit();
-    await expect(productPage.alert).toContainText(expectedAlert);
+    await expect(productPage.alert).toContainText(expectedAlertContent);
 
     // Assert
     await expect(basketPage.orderTotal.first()).toHaveText(
-      expectedOrderSumAfterAddedCoupon,
+      expectedOrderTotalAfterCouponIsAdded,
     );
   });
 
-  test('Add coupon on 10% value of order in basket', async () => {
+  test('Add a coupon worth 10% of the order value to the basket', async () => {
     // Arrange
-    const expectedOrderSumBeforeAddedCoupon = '2 799,00 zł';
-    const expectedAlert = 'Kupon został pomyślnie użyty.';
-    const expectedOrderSumAfterAddedCoupon = '2 519,10 zł';
+    const expectedOrderTotalBeforeCouponIsAdded = '2 799,00 zł';
+    const expectedAlertContent = 'Kupon został pomyślnie użyty.';
+    const expectedOrderTotalAfterCouponIsAdded = '2 519,10 zł';
 
     // Act
     await shopPage.goto();
@@ -70,22 +70,22 @@ test.describe('Verify basket', () => {
     await productPage.clickAddToBasketButton();
     await basketPage.goto();
     await expect(basketPage.orderTotal.first()).toHaveText(
-      expectedOrderSumBeforeAddedCoupon,
+      expectedOrderTotalBeforeCouponIsAdded,
     );
     await basketPage.addCoupon10PercentValueOfOrder();
-    await expect(productPage.alert).toContainText(expectedAlert);
+    await expect(productPage.alert).toContainText(expectedAlertContent);
 
     // Assert
     await expect(basketPage.orderTotal.first()).toHaveText(
-      expectedOrderSumAfterAddedCoupon,
+      expectedOrderTotalAfterCouponIsAdded,
     );
   });
 
-  test('Add coupon on minimum value of order in basket (required value)', async () => {
+  test('Add a coupon that requires a minimum order value in the basket (required value)', async () => {
     // Arrange
-    const expectedOrderSumBeforeAddedCoupon = '3 299,00 zł';
-    const expectedAlert = 'Kupon został pomyślnie użyty.';
-    const expectedOrderSumAfterAddedCoupon = '2 999,00 zł';
+    const expectedOrderTotalBeforeCouponIsAdded = '3 299,00 zł';
+    const expectedAlertContent = 'Kupon został pomyślnie użyty.';
+    const expectedOrderTotalBAfterCouponIsAdded = '2 999,00 zł';
 
     // Act
     await shopPage.goto();
@@ -93,18 +93,18 @@ test.describe('Verify basket', () => {
     await productPage.clickAddToBasketButton();
     await basketPage.goto();
     await expect(basketPage.orderTotal.first()).toHaveText(
-      expectedOrderSumBeforeAddedCoupon,
+      expectedOrderTotalBeforeCouponIsAdded,
     );
     await basketPage.addCouponMinimumValueOfOrder();
-    await expect(productPage.alert).toContainText(expectedAlert);
+    await expect(productPage.alert).toContainText(expectedAlertContent);
 
     // Assert
     await expect(basketPage.orderTotal.first()).toHaveText(
-      expectedOrderSumAfterAddedCoupon,
+      expectedOrderTotalBAfterCouponIsAdded,
     );
   });
 
-  test('Add coupon on minimum value of order in basket (value too low)', async () => {
+  test('Add a coupon that requires a minimum order value in the basket (value too low).', async () => {
     // Arrange
     const expectedHeaderInBasket = 'Koszyk';
 
@@ -122,11 +122,11 @@ test.describe('Verify basket', () => {
     await expect(basketPage.errorMinimumValueOfOrder).toBeVisible();
   });
 
-  test('Add coupon on product without discount in basket (product without discount)', async () => {
+  test('Add a coupon to a product without a discount in the basket (product without discount)', async () => {
     // Arrange
-    const expectedOrderSumBeforeAddedCoupon = '3 299,00 zł';
-    const expectedAlert = 'Kupon został pomyślnie użyty.';
-    const expectedOrderSumAfterAddedCoupon = '2 999,00 zł';
+    const expectedOrderTotalBeforeCouponIsAdded = '3 299,00 zł';
+    const expectedAlertContent = 'Kupon został pomyślnie użyty.';
+    const expectedOrderTotalAfterCouponIsAdded = '2 999,00 zł';
 
     // Act
     await shopPage.goto();
@@ -134,18 +134,18 @@ test.describe('Verify basket', () => {
     await productPage.clickAddToBasketButton();
     await productPage.clickShowBasketButton();
     await expect(basketPage.orderTotal.first()).toHaveText(
-      expectedOrderSumBeforeAddedCoupon,
+      expectedOrderTotalBeforeCouponIsAdded,
     );
     await basketPage.addCouponForProductWithoutPromotion();
-    await expect(productPage.alert).toContainText(expectedAlert);
+    await expect(productPage.alert).toContainText(expectedAlertContent);
 
     // Assert
     await expect(basketPage.orderTotal.first()).toHaveText(
-      expectedOrderSumAfterAddedCoupon,
+      expectedOrderTotalAfterCouponIsAdded,
     );
   });
 
-  test('Add coupon on product without discount in basket (discount product)', async () => {
+  test('Add a coupon to a product without a discount in the basket (discount product)', async () => {
     // Arrange
     const expectedHeaderInBasket = 'Koszyk';
 
@@ -163,11 +163,11 @@ test.describe('Verify basket', () => {
     await expect(basketPage.errorDiscountProduct).toBeVisible();
   });
 
-  test('Add coupon on product from windsurfing category in basket (windsurfing category)', async () => {
+  test('Add a coupon to a product from the windsurfing category in the basket (windsurfing category)', async () => {
     // Arrange
-    const expectedOrderSumBeforeAddedCoupon = '3 400,00 zł';
-    const expectedAlert = 'Kupon został pomyślnie użyty.';
-    const expectedOrderSumAfterAddedCoupon = '3 050,00 zł';
+    const expectedOrderTotalBeforeCouponIsAdded = '3 400,00 zł';
+    const expectedAlertContent = 'Kupon został pomyślnie użyty.';
+    const expectedOrderTotalAfterCouponIsAdded = '3 050,00 zł';
 
     // Act
     await shopPage.goto();
@@ -175,18 +175,18 @@ test.describe('Verify basket', () => {
     await productPage.clickAddToBasketButton();
     await productPage.clickShowBasketButton();
     await expect(basketPage.orderTotal.first()).toHaveText(
-      expectedOrderSumBeforeAddedCoupon,
+      expectedOrderTotalBeforeCouponIsAdded,
     );
     await basketPage.addCouponForProductFromWindsurfingCategory();
-    await expect(productPage.alert).toContainText(expectedAlert);
+    await expect(productPage.alert).toContainText(expectedAlertContent);
 
     // Assert
     await expect(basketPage.orderTotal.first()).toHaveText(
-      expectedOrderSumAfterAddedCoupon,
+      expectedOrderTotalAfterCouponIsAdded,
     );
   });
 
-  test('Add coupon on product from windsurfing category in basket (yoga category)', async () => {
+  test('Add a coupon to a product from the windsurfing category in the basket (yoga category)', async () => {
     // Arrange
     const expectedHeaderInBasket = 'Koszyk';
 
@@ -204,7 +204,7 @@ test.describe('Verify basket', () => {
     await expect(basketPage.errorChosenProduct).toBeVisible();
   });
 
-  test('Add used coupon in basket', async () => {
+  test('Add a used coupon in the basket', async () => {
     // Arrange
     const expectedHeaderInBasket = 'Koszyk';
 
@@ -222,7 +222,7 @@ test.describe('Verify basket', () => {
     await expect(basketPage.errorUsedCoupon).toBeVisible();
   });
 
-  test('Restore removed product to basket', async () => {
+  test('Restore the removed product to the basket', async () => {
     // Arrange
     const expectedProductName = 'Zmień swoją sylwetkę! Yoga na Malcie';
 
@@ -231,9 +231,9 @@ test.describe('Verify basket', () => {
     await shopPage.clickYogaInMalta();
     await productPage.clickAddToBasketButton();
     await productPage.clickShowBasketButton();
-    await expect(basketPage.productTable).toBeVisible();
+    await expect(basketPage.productTableInBasket).toBeVisible();
     await basketPage.removeProductFromBasket();
-    await expect(basketPage.productTable).toBeHidden();
+    await expect(basketPage.productTableInBasket).toBeHidden();
     await basketPage.clickUndoOption();
 
     // Assert
@@ -242,7 +242,7 @@ test.describe('Verify basket', () => {
 
   test('Update the quantity of the product in the basket', async () => {
     // Arrange
-    const expectedAlert = 'Koszyk zaktualizowany.';
+    const expectedAlertContent = 'Koszyk zaktualizowany.';
 
     // Act
     await shopPage.goto();
@@ -256,6 +256,6 @@ test.describe('Verify basket', () => {
     await basketPage.clickUpdateBasketButton();
 
     // Assert
-    await expect(basketPage.alert).toHaveText(expectedAlert);
+    await expect(basketPage.alert).toHaveText(expectedAlertContent);
   });
 });
