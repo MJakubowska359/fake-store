@@ -29,7 +29,7 @@ export class BasketPage extends BasePage {
     this.header = page.getByRole('heading');
     this.productTableInBasket = page.locator('.cart_item');
     this.deleteIconInTable = page.locator('.remove');
-    this.productNameInTable = page.locator('td.product-name');
+    this.productNameInTable = page.locator('td.product-name').getByRole('link');
     this.quantityProductInTable = page.getByLabel('Ilość produktu');
     this.backToShopLink = page.getByRole('link', {
       name: 'Wróć do sklepu',

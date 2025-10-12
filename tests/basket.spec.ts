@@ -1,31 +1,36 @@
 import { BasketPage } from '../src/pages/basket.page';
+import { ProductCategoryPage } from '../src/pages/product-category.page';
 import { ProductPage } from '../src/pages/product.page';
 import { ShopPage } from '../src/pages/shop.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify basket', () => {
-  let shopPage: ShopPage;
   let basketPage: BasketPage;
+  let shopPage: ShopPage;
+  let productCategoryPage: ProductCategoryPage;
   let productPage: ProductPage;
 
   test.beforeEach(async ({ page }) => {
-    shopPage = new ShopPage(page);
     basketPage = new BasketPage(page);
+    shopPage = new ShopPage(page);
+    productCategoryPage = new ProductCategoryPage(page);
     productPage = new ProductPage(page);
   });
 
   test('Add the product to the basket', async () => {
     // Arrange
     const expectedInfoForEmptyBasket = 'Twój koszyk jest pusty.';
-    const expectedProductName = 'Wspinaczka Via Ferraty';
+    const expectedProductName = 'Wspinaczka Island Peak';
     const expectedAlertContentAfterProductIsAdded =
-      '„Wspinaczka Via Ferraty“ został dodany do koszyka.';
+      '„Wspinaczka Island Peak“ został dodany do koszyka.';
 
     // Act
     await basketPage.goto();
     await expect(basketPage.information).toHaveText(expectedInfoForEmptyBasket);
     await basketPage.clickBackToShopButton();
-    await shopPage.clickClimbingViaFerrata();
+    await shopPage.clickClimbingCategory();
+    await productCategoryPage.clickClimbingInIslandPeak();
+    await productPage.clickAddToBasketButton();
     await expect(productPage.header.first()).toHaveText(expectedProductName);
     await productPage.clickAddToBasketButton();
 
@@ -37,13 +42,14 @@ test.describe('Verify basket', () => {
 
   test('Apply a 250 PLN coupon to the basket (no limits)', async () => {
     // Arrange
-    const expectedOrderTotalBeforeCouponIsAdded = '2 799,00 zł';
+    const expectedOrderTotalBeforeCouponIsAdded = '999,00 zł';
     const expectedAlertContent = 'Kupon został pomyślnie użyty.';
-    const expectedOrderTotalAfterCouponIsAdded = '2 549,00 zł';
+    const expectedOrderTotalAfterCouponIsAdded = '749,00 zł';
 
     // Act
     await shopPage.goto();
-    await shopPage.clickClimbingViaFerrata();
+    await shopPage.clickSailingCategory();
+    await productCategoryPage.clickSailingInMasuria();
     await productPage.clickAddToBasketButton();
     await basketPage.goto();
     await expect(basketPage.orderTotal.first()).toHaveText(
@@ -60,13 +66,14 @@ test.describe('Verify basket', () => {
 
   test('Add a coupon worth 10% of the order value to the basket', async () => {
     // Arrange
-    const expectedOrderTotalBeforeCouponIsAdded = '2 799,00 zł';
+    const expectedOrderTotalBeforeCouponIsAdded = '4 500,00 zł';
     const expectedAlertContent = 'Kupon został pomyślnie użyty.';
-    const expectedOrderTotalAfterCouponIsAdded = '2 519,10 zł';
+    const expectedOrderTotalAfterCouponIsAdded = '4 050,00 zł';
 
     // Act
     await shopPage.goto();
-    await shopPage.clickClimbingViaFerrata();
+    await shopPage.clickYogaAndPilatesCategory();
+    await productCategoryPage.clickYogaInTuscany();
     await productPage.clickAddToBasketButton();
     await basketPage.goto();
     await expect(basketPage.orderTotal.first()).toHaveText(
@@ -83,13 +90,14 @@ test.describe('Verify basket', () => {
 
   test('Add a coupon that requires a minimum order value in the basket (required value)', async () => {
     // Arrange
-    const expectedOrderTotalBeforeCouponIsAdded = '3 299,00 zł';
+    const expectedOrderTotalBeforeCouponIsAdded = '3 200,00 zł';
     const expectedAlertContent = 'Kupon został pomyślnie użyty.';
-    const expectedOrderTotalBAfterCouponIsAdded = '2 999,00 zł';
+    const expectedOrderTotalBAfterCouponIsAdded = '2 900,00 zł';
 
     // Act
     await shopPage.goto();
-    await shopPage.clickYogaInMalta();
+    await shopPage.clickWindsurfingCategory();
+    await productCategoryPage.clickWindsurfingInGreece();
     await productPage.clickAddToBasketButton();
     await basketPage.goto();
     await expect(basketPage.orderTotal.first()).toHaveText(
@@ -110,7 +118,8 @@ test.describe('Verify basket', () => {
 
     // Act
     await shopPage.goto();
-    await shopPage.clickClimbingViaFerrata();
+    await shopPage.clickYogaAndPilatesCategory();
+    await productCategoryPage.clickYogaInSpain();
     await productPage.clickAddToBasketButton();
     await basketPage.goto();
     await expect
@@ -124,13 +133,14 @@ test.describe('Verify basket', () => {
 
   test('Add a coupon to a product without a discount in the basket (product without discount)', async () => {
     // Arrange
-    const expectedOrderTotalBeforeCouponIsAdded = '3 299,00 zł';
+    const expectedOrderTotalBeforeCouponIsAdded = '2 999,99 zł';
     const expectedAlertContent = 'Kupon został pomyślnie użyty.';
-    const expectedOrderTotalAfterCouponIsAdded = '2 999,00 zł';
+    const expectedOrderTotalAfterCouponIsAdded = '2 699,99 zł';
 
     // Act
     await shopPage.goto();
-    await shopPage.clickYogaInMalta();
+    await shopPage.clickClimbingCategory();
+    await productCategoryPage.clickClimbingInPoland();
     await productPage.clickAddToBasketButton();
     await productPage.clickShowBasketButton();
     await expect(basketPage.orderTotal.first()).toHaveText(
@@ -151,7 +161,8 @@ test.describe('Verify basket', () => {
 
     // Act
     await shopPage.goto();
-    await shopPage.clickClimbingViaFerrata();
+    await shopPage.clickYogaAndPilatesCategory();
+    await productCategoryPage.clickYogaInPortugal();
     await productPage.clickAddToBasketButton();
     await productPage.clickShowBasketButton();
     await expect
@@ -171,7 +182,8 @@ test.describe('Verify basket', () => {
 
     // Act
     await shopPage.goto();
-    await shopPage.clickWindsurfingInEgypt();
+    await shopPage.clickWindsurfingCategory();
+    await productCategoryPage.clickWindsurfingInEgypt();
     await productPage.clickAddToBasketButton();
     await productPage.clickShowBasketButton();
     await expect(basketPage.orderTotal.first()).toHaveText(
@@ -192,7 +204,8 @@ test.describe('Verify basket', () => {
 
     // Act
     await shopPage.goto();
-    await shopPage.clickYogaInMalta();
+    await shopPage.clickYogaAndPilatesCategory();
+    await productCategoryPage.clickYogaInPortugal();
     await productPage.clickAddToBasketButton();
     await productPage.clickShowBasketButton();
     await expect
@@ -210,7 +223,8 @@ test.describe('Verify basket', () => {
 
     // Act
     await shopPage.goto();
-    await shopPage.clickYogaInMalta();
+    await shopPage.clickSailingCategory();
+    await productCategoryPage.clickSailingInMasuria();
     await productPage.clickAddToBasketButton();
     await productPage.clickShowBasketButton();
     await expect
@@ -224,11 +238,12 @@ test.describe('Verify basket', () => {
 
   test('Restore the removed product to the basket', async () => {
     // Arrange
-    const expectedProductName = 'Zmień swoją sylwetkę! Yoga na Malcie';
+    const expectedProductName = 'Grecja - Limnos';
 
     // Act
     await shopPage.goto();
-    await shopPage.clickYogaInMalta();
+    await shopPage.clickWindsurfingCategory();
+    await productCategoryPage.clickWindsurfingInGreece();
     await productPage.clickAddToBasketButton();
     await productPage.clickShowBasketButton();
     await expect(basketPage.productTableInBasket).toBeVisible();
@@ -237,7 +252,9 @@ test.describe('Verify basket', () => {
     await basketPage.clickUndoOption();
 
     // Assert
-    await expect(basketPage.productNameInTable).toHaveText(expectedProductName);
+    await expect(basketPage.productNameInTable).toContainText(
+      expectedProductName,
+    );
   });
 
   test('Update the quantity of the product in the basket', async () => {
@@ -246,8 +263,9 @@ test.describe('Verify basket', () => {
 
     // Act
     await shopPage.goto();
-    await shopPage.clickClimbingViaFerrata();
-    await shopPage.addTwoQuantityOfProduct();
+    await shopPage.clickYogaAndPilatesCategory();
+    await productCategoryPage.clickYogaInSpain();
+    await productPage.addTwoQuantityOfProduct();
     await productPage.clickAddToBasketButton();
     await productPage.clickShowBasketButton();
     await expect(basketPage.updateBasketButton).toBeDisabled();

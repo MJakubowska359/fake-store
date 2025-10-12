@@ -4,73 +4,40 @@ import { Locator, Page } from '@playwright/test';
 export class ShopPage extends BasePage {
   url = '/shop';
 
-  categoryWindsurfing: Locator;
-  categoryClimbing: Locator;
-  categoryYoga: Locator;
-  categorySailing: Locator;
-  product: Locator;
-  addToWishlist: Locator;
-  quantityInput: Locator;
+  windsurfingCategory: Locator;
+  climbingCategory: Locator;
+  yogaAndPilatesCategory: Locator;
+  sailingCategory: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.categoryWindsurfing = this.page.getByRole('heading', {
+    this.windsurfingCategory = this.page.getByRole('heading', {
       name: 'Windsurfing',
     });
-    this.categoryClimbing = this.page.getByRole('heading', {
+    this.climbingCategory = this.page.getByRole('heading', {
       name: 'Wspinaczka',
     });
-    this.categoryYoga = this.page.getByRole('heading', {
+    this.yogaAndPilatesCategory = this.page.getByRole('heading', {
       name: 'Yoga i pilates',
     });
-    this.categorySailing = this.page.getByRole('heading', {
+    this.sailingCategory = this.page.getByRole('heading', {
       name: 'Żeglarstwo',
     });
-    this.product = page.locator('.type-product a');
-    this.addToWishlist = page.getByText('Dodaj do listy życzeń');
-    this.quantityInput = page.getByRole('spinbutton', {
-      name: 'Ilość produktu',
-    });
   }
 
-  async addYogaInTuscanyToWishlist(): Promise<void> {
-    await this.categoryYoga.click();
-    await this.product.nth(2).click();
-    await this.addToWishlist.click();
+  async clickWindsurfingCategory(): Promise<void> {
+    await this.windsurfingCategory.click();
   }
 
-  async addWindsurfingInGreeceToWishlist(): Promise<void> {
-    await this.categoryWindsurfing.click();
-    await this.product.nth(2).click();
-    await this.addToWishlist.click();
+  async clickClimbingCategory(): Promise<void> {
+    await this.climbingCategory.click();
   }
 
-  async addClimbingInIslandPeakToWishlist(): Promise<void> {
-    await this.categoryClimbing.click();
-    await this.product.nth(2).click();
-    await this.addToWishlist.click();
+  async clickYogaAndPilatesCategory(): Promise<void> {
+    await this.yogaAndPilatesCategory.click();
   }
 
-  async clickClimbingViaFerrata(): Promise<void> {
-    await this.categoryClimbing.click();
-    await this.product.nth(4).click();
-  }
-
-  async clickYogaInMalta(): Promise<void> {
-    await this.categoryYoga.click();
-    await this.product.nth(8).click();
-  }
-
-  async clickWindsurfingInEgypt(): Promise<void> {
-    await this.categoryWindsurfing.click();
-    await this.product.first().click();
-  }
-
-  async addFullProductQuantityToBasket(): Promise<void> {
-    await this.quantityInput.fill('14536');
-  }
-
-  async addTwoQuantityOfProduct(): Promise<void> {
-    await this.quantityInput.fill('2');
+  async clickSailingCategory(): Promise<void> {
+    await this.sailingCategory.click();
   }
 }

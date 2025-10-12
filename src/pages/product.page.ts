@@ -6,6 +6,8 @@ export class ProductPage extends BasePage {
 
   addToBasketButton: Locator;
   showBasketLink: Locator;
+  addToWishlist: Locator;
+  quantityInput: Locator;
 
   header: Locator;
   popup: Locator;
@@ -20,6 +22,10 @@ export class ProductPage extends BasePage {
     this.showBasketLink = page.getByRole('link', {
       name: 'Zobacz koszyk',
     });
+    this.addToWishlist = page.getByText('Dodaj do listy życzeń');
+    this.quantityInput = page.getByRole('spinbutton', {
+      name: 'Ilość produktu',
+    });
 
     this.header = page.getByRole('heading');
     this.popup = page.locator('[id$="popup-message"]');
@@ -30,7 +36,19 @@ export class ProductPage extends BasePage {
     await this.addToBasketButton.click();
   }
 
+  async clickAddToWishlistButton(): Promise<void> {
+    await this.addToWishlist.click();
+  }
+
   async clickShowBasketButton(): Promise<void> {
     await this.showBasketLink.click();
+  }
+
+  async addFullProductQuantityToBasket(): Promise<void> {
+    await this.quantityInput.fill('15340');
+  }
+
+  async addTwoQuantityOfProduct(): Promise<void> {
+    await this.quantityInput.fill('2');
   }
 }

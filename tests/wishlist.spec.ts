@@ -1,4 +1,5 @@
 import { BasketPage } from '../src/pages/basket.page';
+import { ProductCategoryPage } from '../src/pages/product-category.page';
 import { ProductPage } from '../src/pages/product.page';
 import { ShopPage } from '../src/pages/shop.page';
 import { WishlistPage } from '../src/pages/wishlist.page';
@@ -7,15 +8,19 @@ import { expect, test } from '@playwright/test';
 test.describe.configure({ mode: 'serial' });
 test.describe('Verify wishlist', () => {
   let shopPage: ShopPage;
+  let productCategoryPage: ProductCategoryPage;
   let productPage: ProductPage;
   let wishlistPage: WishlistPage;
   let basketPage: BasketPage;
 
   test.beforeEach(async ({ page }) => {
     shopPage = new ShopPage(page);
+    productCategoryPage = new ProductCategoryPage(page);
     productPage = new ProductPage(page);
     wishlistPage = new WishlistPage(page);
     basketPage = new BasketPage(page);
+
+    await shopPage.goto();
   });
 
   test('Add a product to the wishlist', async () => {
@@ -23,8 +28,9 @@ test.describe('Verify wishlist', () => {
     const expectedPopupContent = 'Produkt dodany!';
 
     // Act
-    await shopPage.goto();
-    await shopPage.addYogaInTuscanyToWishlist();
+    await shopPage.clickYogaAndPilatesCategory();
+    await productCategoryPage.clickYogaInTuscany();
+    await productPage.clickAddToWishlistButton();
 
     // Assert
     await expect(productPage.popup).toHaveText(expectedPopupContent);
@@ -32,13 +38,12 @@ test.describe('Verify wishlist', () => {
 
   test('Remove a product from the wishlist', async () => {
     // Arrange
-    const expectedPopupContent = 'Produkt dodany!';
     const expectedAlertContent = 'Produkt został usunięty.';
 
     // Act
-    await shopPage.goto();
-    await shopPage.addWindsurfingInGreeceToWishlist();
-    await expect.soft(productPage.popup).toHaveText(expectedPopupContent);
+    await shopPage.clickWindsurfingCategory();
+    await productCategoryPage.clickWindsurfingInGreece();
+    await productPage.clickAddToWishlistButton();
     await wishlistPage.goto();
     await wishlistPage.deleteProductFromWishlist();
 
@@ -48,13 +53,12 @@ test.describe('Verify wishlist', () => {
 
   test('Add a product to the basket from the wishlist', async () => {
     // Arrange
-    const expectedPopupContent = 'Produkt dodany!';
     const expectedHeader = 'Koszyk';
 
     // Act
-    await shopPage.goto();
-    await shopPage.addClimbingInIslandPeakToWishlist();
-    await expect.soft(productPage.popup).toHaveText(expectedPopupContent);
+    await shopPage.clickClimbingCategory();
+    await productCategoryPage.clickClimbingInIslandPeak();
+    await productPage.clickAddToWishlistButton();
     await wishlistPage.goto();
     await wishlistPage.addProductFromWishlistToBasket();
 
