@@ -276,4 +276,26 @@ test.describe('Verify basket', () => {
     // Assert
     await expect(basketPage.alert).toHaveText(expectedAlertContent);
   });
+
+  test('Apply a 250 PLN coupon to the basket (used solo)', async () => {
+    // Act
+    await shopPage.goto();
+    await shopPage.clickWindsurfingCategory();
+    await productCategoryPage.clickWindsurfingInEgypt();
+    await productPage.clickAddToBasketButton();
+    await basketPage.goto();
+    await basketPage.addCouponMinimumValueOfOrder();
+    await expect(basketPage.threeHundredPlnCoupon).toBeVisible();
+    await basketPage.addCouponForProductFromWindsurfingCategory();
+    await expect(basketPage.windsurfingCoupon).toBeVisible();
+    await basketPage.addCoupon10PercentValueOfOrder();
+    await expect(basketPage.tenPercentCoupon).toBeVisible();
+    await basketPage.addCoupon250PlnWithoutLimitToUseSolo();
+
+    // Assert
+    await expect(basketPage.soloCoupon).toBeVisible();
+    await expect(basketPage.threeHundredPlnCoupon).toBeHidden();
+    await expect(basketPage.windsurfingCoupon).toBeHidden();
+    await expect(basketPage.tenPercentCoupon).toBeHidden();
+  });
 });

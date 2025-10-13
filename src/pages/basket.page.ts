@@ -12,16 +12,20 @@ export class BasketPage extends BasePage {
   couponCodeInput: Locator;
   couponCodeButton: Locator;
   orderTotal: Locator;
-  errorMinimumValueOfOrder: Locator;
-  errorDiscountProduct: Locator;
-  errorChosenProduct: Locator;
-  errorUsedCoupon: Locator;
   undoLink: Locator;
   productTableInBasket: Locator;
   updateBasketButton: Locator;
 
   information: Locator;
   alert: Locator;
+  errorMinimumValueOfOrder: Locator;
+  errorDiscountProduct: Locator;
+  errorChosenProduct: Locator;
+  errorUsedCoupon: Locator;
+  threeHundredPlnCoupon: Locator;
+  windsurfingCoupon: Locator;
+  tenPercentCoupon: Locator;
+  soloCoupon: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -39,6 +43,13 @@ export class BasketPage extends BasePage {
       name: 'Zastosuj kupon',
     });
     this.orderTotal = page.locator('.order-total .amount');
+    this.undoLink = page.getByRole('link', { name: 'Cofnij?' });
+    this.updateBasketButton = page.getByRole('button', {
+      name: 'Zaktualizuj koszyk',
+    });
+
+    this.information = page.locator('.cart-empty');
+    this.alert = page.getByRole('alert');
     this.errorMinimumValueOfOrder = page.getByText(
       'Minimalna wartość zamówienia dla tego kuponu to 3 000,00 zł.',
     );
@@ -49,13 +60,18 @@ export class BasketPage extends BasePage {
       'Przepraszamy, tego kuponu nie można zastosować do wybranych produktów.',
     );
     this.errorUsedCoupon = page.getByText('Ten kupon stracił ważność');
-    this.undoLink = page.getByRole('link', { name: 'Cofnij?' });
-    this.updateBasketButton = page.getByRole('button', {
-      name: 'Zaktualizuj koszyk',
+    this.threeHundredPlnCoupon = page.locator('.cart_totals th', {
+      hasText: 'kwotowy300',
     });
-
-    this.information = page.locator('.cart-empty');
-    this.alert = page.getByRole('alert');
+    this.windsurfingCoupon = page.locator('.cart_totals th', {
+      hasText: 'windsurfing350',
+    });
+    this.tenPercentCoupon = page.locator('.cart_totals th', {
+      hasText: '10procent',
+    });
+    this.soloCoupon = page.locator('.cart_totals th', {
+      hasText: 'kwotowy250pojedynczy',
+    });
   }
 
   async clickBackToShopButton(): Promise<void> {
@@ -64,6 +80,11 @@ export class BasketPage extends BasePage {
 
   async addCoupon250PlnWithoutLimit(): Promise<void> {
     await this.couponCodeInput.fill('kwotowy250');
+    await this.couponCodeButton.click();
+  }
+
+  async addCoupon250PlnWithoutLimitToUseSolo(): Promise<void> {
+    await this.couponCodeInput.fill('kwotowy250pojedynczy');
     await this.couponCodeButton.click();
   }
 
