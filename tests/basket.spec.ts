@@ -298,4 +298,22 @@ test.describe('Verify basket', () => {
     await expect(basketPage.windsurfingCoupon).toBeHidden();
     await expect(basketPage.tenPercentCoupon).toBeHidden();
   });
+
+  test('Delete the coupon from the basket', async () => {
+    // Arrange
+    const expectedAlertContent = 'Kupon został usunięty.';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickYogaAndPilatesCategory();
+    await productCategoryPage.clickYogaInTuscany();
+    await productPage.clickAddToBasketButton();
+    await basketPage.goto();
+    await basketPage.addCoupon250PlnWithoutLimitToUseSolo();
+    await basketPage.clickDeleteCouponOption();
+    await expect(productPage.alert).toContainText(expectedAlertContent);
+
+    // Assert
+    await expect(basketPage.soloCoupon).toBeHidden();
+  });
 });

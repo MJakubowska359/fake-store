@@ -15,6 +15,7 @@ export class BasketPage extends BasePage {
   undoLink: Locator;
   productTableInBasket: Locator;
   updateBasketButton: Locator;
+  deleteCouponLink: Locator;
 
   information: Locator;
   alert: Locator;
@@ -47,6 +48,7 @@ export class BasketPage extends BasePage {
     this.updateBasketButton = page.getByRole('button', {
       name: 'Zaktualizuj koszyk',
     });
+    this.deleteCouponLink = page.getByRole('link', { name: 'Usuń' }).nth(1);
 
     this.information = page.locator('.cart-empty');
     this.alert = page.getByRole('alert');
@@ -127,5 +129,9 @@ export class BasketPage extends BasePage {
 
   async clickUpdateBasketButton(): Promise<void> {
     await this.updateBasketButton.click();
+  }
+
+  async clickDeleteCouponOption(): Promise<void> {
+    await this.deleteCouponLink.click();
   }
 }
