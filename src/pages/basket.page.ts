@@ -134,4 +134,9 @@ export class BasketPage extends BasePage {
   async clickDeleteCouponOption(): Promise<void> {
     await this.deleteCouponLink.click();
   }
+
+  async addInvalidCoupon(): Promise<void> {
+    await this.couponCodeInput.fill('milionymonet');
+    await this.couponCodeButton.click();
+  }
 }

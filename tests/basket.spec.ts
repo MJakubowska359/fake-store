@@ -316,4 +316,20 @@ test.describe('Verify basket', () => {
     // Assert
     await expect(basketPage.soloCoupon).toBeHidden();
   });
+
+  test('Add a non-existent coupon to the product in the basket', async () => {
+    // Arrange
+    const expectedAlertContent = 'Kupon "milionymonet" nie istnieje!';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickYogaAndPilatesCategory();
+    await productCategoryPage.clickYogaInTuscany();
+    await productPage.clickAddToBasketButton();
+    await basketPage.goto();
+    await basketPage.addInvalidCoupon();
+
+    // Assert
+    await expect(basketPage.alert).toHaveText(expectedAlertContent);
+  });
 });
