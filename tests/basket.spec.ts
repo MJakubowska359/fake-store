@@ -92,7 +92,7 @@ test.describe('Verify basket', () => {
     // Arrange
     const expectedOrderTotalBeforeCouponIsAdded = '3 200,00 zł';
     const expectedAlertContent = 'Kupon został pomyślnie użyty.';
-    const expectedOrderTotalBAfterCouponIsAdded = '2 900,00 zł';
+    const expectedOrderTotalAfterCouponIsAdded = '2 900,00 zł';
 
     // Act
     await shopPage.goto();
@@ -108,7 +108,7 @@ test.describe('Verify basket', () => {
 
     // Assert
     await expect(basketPage.orderTotal.first()).toHaveText(
-      expectedOrderTotalBAfterCouponIsAdded,
+      expectedOrderTotalAfterCouponIsAdded,
     );
   });
 
@@ -331,5 +331,32 @@ test.describe('Verify basket', () => {
 
     // Assert
     await expect(basketPage.alert).toHaveText(expectedAlertContent);
+  });
+
+  test('Add more than one coupon to the product in the basket', async () => {
+    // Arrange
+    const expectedOrderTotalBeforeCouponIsAdded = '8 200,00 zł';
+    const expectedOrderTotalAfterCouponIsAdded = '6 830,00 zł';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickClimbingCategory();
+    await productCategoryPage.clickClimbingInIslandPeak();
+    await productPage.clickAddToBasketButton();
+    await basketPage.goto();
+    await expect(basketPage.orderTotal.first()).toHaveText(
+      expectedOrderTotalBeforeCouponIsAdded,
+    );
+    await basketPage.addCouponMinimumValueOfOrder();
+    await expect(basketPage.threeHundredPlnCoupon).toBeVisible();
+    await basketPage.addCoupon250PlnWithoutLimit();
+    await expect(basketPage.twoHundredFiftyNoLimitCoupon).toBeVisible();
+    await basketPage.addCoupon10PercentValueOfOrder();
+    await expect(basketPage.tenPercentCoupon).toBeVisible();
+
+    // Assert
+    await expect(basketPage.orderTotal.first()).toHaveText(
+      expectedOrderTotalAfterCouponIsAdded,
+    );
   });
 });

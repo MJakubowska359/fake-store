@@ -23,6 +23,7 @@ export class BasketPage extends BasePage {
   errorDiscountProduct: Locator;
   errorChosenProduct: Locator;
   errorUsedCoupon: Locator;
+  twoHundredFiftyNoLimitCoupon: Locator;
   threeHundredPlnCoupon: Locator;
   windsurfingCoupon: Locator;
   tenPercentCoupon: Locator;
@@ -62,6 +63,9 @@ export class BasketPage extends BasePage {
       'Przepraszamy, tego kuponu nie można zastosować do wybranych produktów.',
     );
     this.errorUsedCoupon = page.getByText('Ten kupon stracił ważność');
+    this.twoHundredFiftyNoLimitCoupon = page.locator('.cart_totals th', {
+      hasText: 'kwotowy250',
+    });
     this.threeHundredPlnCoupon = page.locator('.cart_totals th', {
       hasText: 'kwotowy300',
     });
