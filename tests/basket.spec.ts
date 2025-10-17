@@ -335,13 +335,13 @@ test.describe('Verify basket', () => {
 
   test('Add more than one coupon to the product in the basket', async () => {
     // Arrange
-    const expectedOrderTotalBeforeCouponIsAdded = '8 200,00 zł';
-    const expectedOrderTotalAfterCouponIsAdded = '6 830,00 zł';
+    const expectedOrderTotalBeforeCouponIsAdded = '4 500,00 zł';
+    const expectedOrderTotalAfterCouponIsAdded = '3 500,00 zł';
 
     // Act
     await shopPage.goto();
-    await shopPage.clickClimbingCategory();
-    await productCategoryPage.clickClimbingInIslandPeak();
+    await shopPage.clickYogaAndPilatesCategory();
+    await productCategoryPage.clickYogaInTuscany();
     await productPage.clickAddToBasketButton();
     await basketPage.goto();
     await expect(basketPage.orderTotal.first()).toHaveText(
@@ -358,5 +358,27 @@ test.describe('Verify basket', () => {
     await expect(basketPage.orderTotal.first()).toHaveText(
       expectedOrderTotalAfterCouponIsAdded,
     );
+  });
+
+  test('Remove a product with coupons from the basket', async () => {
+    // Arrange
+    const expectedAlertContent =
+      'Przepraszamy, kupon "kwotowy300" jest nieprawidłowy – został usunięty z twojego zamówienia. Przepraszamy, kupon "windsurfing350" jest nieprawidłowy – został usunięty z twojego zamówienia.';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickWindsurfingCategory();
+    await productCategoryPage.clickWindsurfingInEgypt();
+    await productPage.clickAddToBasketButton();
+    await productPage.clickShowBasketButton();
+    await basketPage.addCoupon250PlnWithoutLimit();
+    await basketPage.addCoupon10PercentValueOfOrder();
+    await basketPage.addCouponMinimumValueOfOrder();
+    await basketPage.addCouponForProductWithoutPromotion();
+    await basketPage.addCouponForProductFromWindsurfingCategory();
+    await basketPage.removeProductFromBasket();
+
+    // Assert
+    await expect(basketPage.alert.nth(1)).toHaveText(expectedAlertContent);
   });
 });
