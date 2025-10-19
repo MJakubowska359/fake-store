@@ -8,9 +8,11 @@ export class ProductCategoryPage extends BasePage {
   windsurfingInEgypt: Locator;
   climbingInIslandPeak: Locator;
   climbingInPoland: Locator;
+  yogaInJapan: Locator;
   yogaInTuscany: Locator;
-  yogaInPortugal: Locator;
   yogaInSpain: Locator;
+  yogaInPortugal: Locator;
+  yogaInMalta: Locator;
   sailingInMasuria: Locator;
   addToBasketButton: Locator;
   showBasketLink: Locator;
@@ -30,14 +32,20 @@ export class ProductCategoryPage extends BasePage {
     this.climbingInPoland = page.getByRole('heading', {
       name: 'Grań Kościelców',
     });
+    this.yogaInJapan = page.getByRole('heading', {
+      name: 'Wakacje z yogą w Kraju Kwitnącej Wiśni',
+    });
     this.yogaInTuscany = page.getByRole('heading', {
       name: 'Wczasy relaksacyjne z yogą w Toskanii',
+    });
+    this.yogaInSpain = page.getByRole('heading', {
+      name: 'Yoga i pilates w Hiszpanii',
     });
     this.yogaInPortugal = page.getByRole('heading', {
       name: 'Yoga i pilates w Portugalii',
     });
-    this.yogaInSpain = page.getByRole('heading', {
-      name: 'Yoga i pilates w Hiszpanii',
+    this.yogaInMalta = page.getByRole('heading', {
+      name: 'Zmień swoją sylwetkę! Yoga na Malcie',
     });
     this.sailingInMasuria = page.getByRole('heading', {
       name: 'Kurs żeglarski na Mazurach',
@@ -66,16 +74,24 @@ export class ProductCategoryPage extends BasePage {
     await this.climbingInPoland.click();
   }
 
+  async clickYogaInJapan(): Promise<void> {
+    await this.yogaInJapan.click();
+  }
+
   async clickYogaInTuscany(): Promise<void> {
     await this.yogaInTuscany.click();
+  }
+
+  async clickYogaInSpain(): Promise<void> {
+    await this.yogaInSpain.click();
   }
 
   async clickYogaInPortugal(): Promise<void> {
     await this.yogaInPortugal.click();
   }
 
-  async clickYogaInSpain(): Promise<void> {
-    await this.yogaInPortugal.click();
+  async clickYogaInMalta(): Promise<void> {
+    await this.yogaInMalta.click();
   }
 
   async clickSailingInMasuria(): Promise<void> {
