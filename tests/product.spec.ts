@@ -62,4 +62,17 @@ test.describe('Verify product', () => {
     // Assert
     await expect(productPage.alert).toContainText(expectedAlertContent);
   });
+
+  test('Add the product to the wishlist', async () => {
+    // Arrange
+    const expectedPopupContent = 'Produkt dodany!';
+
+    // Act
+    await shopPage.clickYogaAndPilatesCategory();
+    await productCategoryPage.clickYogaInTuscany();
+    await productPage.clickAddToWishlistButton();
+
+    // Assert
+    await expect(productPage.popup).toHaveText(expectedPopupContent);
+  });
 });
