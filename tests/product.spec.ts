@@ -2,6 +2,7 @@ import { BasePage } from '../src/pages/base.page';
 import { ProductCategoryPage } from '../src/pages/product-category.page';
 import { ProductPage } from '../src/pages/product.page';
 import { ShopPage } from '../src/pages/shop.page';
+import { WishlistPage } from '../src/pages/wishlist.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify product', () => {
@@ -9,12 +10,14 @@ test.describe('Verify product', () => {
   let productCategoryPage: ProductCategoryPage;
   let productPage: ProductPage;
   let basePage: BasePage;
+  let wishlist: WishlistPage;
 
   test.beforeEach(async ({ page }) => {
     shopPage = new ShopPage(page);
     productCategoryPage = new ProductCategoryPage(page);
     productPage = new ProductPage(page);
     basePage = new BasePage(page);
+    wishlist = new WishlistPage(page);
   });
 
   test('Add the product to the basket', async () => {
@@ -65,14 +68,26 @@ test.describe('Verify product', () => {
 
   test('Add the product to the wishlist', async () => {
     // Arrange
+    const expectedTextOfEmptyWishlist = 'No products added to the wishlist';
     const expectedPopupContent = 'Produkt dodany!';
+    const expectedProductAfterAddedToWishlist =
+      'Wczasy relaksacyjne z yogą w Toskanii';
 
     // Act
+    await wishlist.goto();
+    await expect(wishlist.emptyWishlist).toHaveText(
+      expectedTextOfEmptyWishlist,
+    );
+    await shopPage.goto();
     await shopPage.clickYogaAndPilatesCategory();
     await productCategoryPage.clickYogaInTuscany();
     await productPage.clickAddToWishlistButton();
+    await expect(productPage.popup).toHaveText(expectedPopupContent);
+    await wishlist.goto();
 
     // Assert
-    await expect(productPage.popup).toHaveText(expectedPopupContent);
+    await expect(wishlist.productNameInTable).toHaveText(
+      expectedProductAfterAddedToWishlist,
+    );
   });
 });

@@ -4,14 +4,18 @@ import { Locator, Page } from '@playwright/test';
 export class WishlistPage extends BasePage {
   url = '/wishlist';
 
+  emptyWishlist: Locator;
   deleteButton: Locator;
+  productNameInTable: Locator;
   addToBasketLink: Locator;
 
   alert: Locator;
 
   constructor(page: Page) {
     super(page);
+    this.emptyWishlist = page.locator('.wishlist-empty');
     this.deleteButton = page.getByTitle('Usuń');
+    this.productNameInTable = page.locator('td.product-name').getByRole('link');
     this.addToBasketLink = page.getByRole('link', {
       name: 'Dodaj do koszyka',
     });
