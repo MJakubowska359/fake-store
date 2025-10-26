@@ -8,6 +8,7 @@ export class MainAccountPage extends BasePage {
 
   deleteAccountLink: Locator;
   accountSettingsLink: Locator;
+  addressLink: Locator;
   logoutLink: Locator;
 
   // First name and Last name
@@ -20,7 +21,19 @@ export class MainAccountPage extends BasePage {
   submitPasswordInput: Locator;
   saveChanges: Locator;
 
+  // A billing address
+  editBillingAddressIcon: Locator;
+  countyList: Locator;
+  streetInput: Locator;
+  postCodeInput: Locator;
+  cityInput: Locator;
+  stateList: Locator;
+  phoneNumberInput: Locator;
+  emailAddressInput: Locator;
+  saveAddress: Locator;
+
   header: Locator;
+  alert: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -30,6 +43,9 @@ export class MainAccountPage extends BasePage {
     });
     this.accountSettingsLink = this.page.locator('li').getByRole('link', {
       name: 'Edycja konta',
+    });
+    this.addressLink = this.page.locator('li').getByRole('link', {
+      name: 'Adres',
     });
     this.logoutLink = this.page.locator('li').getByRole('link', {
       name: 'Wyloguj',
@@ -45,7 +61,21 @@ export class MainAccountPage extends BasePage {
     this.submitPasswordInput = this.page.locator('#password_2');
     this.saveChanges = this.page.getByRole('button', { name: 'Zapisz zmiany' });
 
+    // A billing address
+    this.editBillingAddressIcon = this.page.getByRole('link', {
+      name: 'Edytuj Adres rozliczeniowy',
+    });
+    this.countyList = this.page.locator('#billing_country');
+    this.streetInput = this.page.locator('#billing_address_1');
+    this.postCodeInput = this.page.locator('#billing_postcode');
+    this.cityInput = this.page.locator('#billing_city');
+    this.stateList = this.page.locator('#billing_state');
+    this.phoneNumberInput = this.page.locator('#billing_phone');
+    this.emailAddressInput = this.page.locator('#billing_email');
+    this.saveAddress = this.page.getByRole('button', { name: 'Zapisz adres' });
+
     this.header = this.page.getByRole('heading');
+    this.alert = this.page.getByRole('alert');
   }
 
   async deleteAccount(): Promise<void> {
@@ -72,6 +102,31 @@ export class MainAccountPage extends BasePage {
     await this.newPasswordInput.fill('testoweH4sł@');
     await this.submitPasswordInput.fill('testoweH4sł@');
     await this.saveChanges.click();
+  }
+
+  async clickAddressSettings(): Promise<void> {
+    await this.addressLink.click();
+  }
+
+  async clickEditBillingAddressIcon(): Promise<void> {
+    await this.editBillingAddressIcon.click();
+  }
+
+  async fillBillingAddressForm(): Promise<void> {
+    await this.countyList.selectOption('Niemcy');
+    await this.streetInput.fill(
+      faker.location.streetAddress({ useFullAddress: true }),
+    );
+    await this.postCodeInput.fill(faker.location.zipCode({ format: '##-###' }));
+    await this.cityInput.fill(faker.location.city());
+    await this.stateList.selectOption('Hesja');
+    await this.phoneNumberInput.fill(
+      faker.phone.number({ style: 'international' }),
+    );
+  }
+
+  async clickSaveAddressButton(): Promise<void> {
+    await this.saveAddress.click();
   }
 
   async clickLogoutButton(): Promise<void> {
