@@ -20,12 +20,28 @@ test.describe('Add addresses to the account', () => {
     await loginPage.goto();
     await loginPage.login(testUser1);
     await mainAccountPage.clickAddressSettings();
-    await mainAccountPage.clickEditBillingAddressIcon();
-    // await expect(mainAccountPage.stateList).toBeHidden();
+    await mainAccountPage.clickAddBillingAddressIcon();
+    await expect(mainAccountPage.stateList).toBeHidden();
     await expect(mainAccountPage.emailAddressInput).toHaveValue(
       testUser1.userEmail,
     );
     await mainAccountPage.fillBillingAddressForm();
+    await mainAccountPage.clickSaveAddressButton();
+
+    // Assert
+    await expect(mainAccountPage.alert).toHaveText(expectedAlertContent);
+  });
+
+  test('Add a shipping address to the account', async () => {
+    // Arrange
+    const expectedAlertContent = 'Adres został zmieniony.';
+
+    // Act
+    await loginPage.goto();
+    await loginPage.login(testUser1);
+    await mainAccountPage.clickAddressSettings();
+    await mainAccountPage.clickAddShippingAddressIcon();
+    await mainAccountPage.fillShippingAddressForm();
     await mainAccountPage.clickSaveAddressButton();
 
     // Assert

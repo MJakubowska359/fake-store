@@ -22,7 +22,7 @@ export class MainAccountPage extends BasePage {
   saveChanges: Locator;
 
   // A billing address
-  editBillingAddressIcon: Locator;
+  addBillingAddressIcon: Locator;
   countyList: Locator;
   streetInput: Locator;
   postCodeInput: Locator;
@@ -31,6 +31,9 @@ export class MainAccountPage extends BasePage {
   phoneNumberInput: Locator;
   emailAddressInput: Locator;
   saveAddress: Locator;
+
+  // A shipping address
+  addShippingAddressIcon: Locator;
 
   header: Locator;
   alert: Locator;
@@ -52,8 +55,8 @@ export class MainAccountPage extends BasePage {
     });
 
     // First name and las name
-    this.firstNameInput = this.page.locator('#account_first_name');
-    this.lastNameInput = this.page.locator('#account_last_name');
+    this.firstNameInput = this.page.locator('[id$="_first_name"]');
+    this.lastNameInput = this.page.locator('[id$="_last_name"]');
 
     // Reset password
     this.currentlyPasswordInput = this.page.locator('#password_current');
@@ -62,17 +65,22 @@ export class MainAccountPage extends BasePage {
     this.saveChanges = this.page.getByRole('button', { name: 'Zapisz zmiany' });
 
     // A billing address
-    this.editBillingAddressIcon = this.page.getByRole('link', {
-      name: 'Edytuj Adres rozliczeniowy',
+    this.addBillingAddressIcon = this.page.getByRole('link', {
+      name: 'Dodaj Adres rozliczeniowy',
     });
-    this.countyList = this.page.locator('#billing_country');
-    this.streetInput = this.page.locator('#billing_address_1');
-    this.postCodeInput = this.page.locator('#billing_postcode');
-    this.cityInput = this.page.locator('#billing_city');
-    this.stateList = this.page.locator('#billing_state');
-    this.phoneNumberInput = this.page.locator('#billing_phone');
-    this.emailAddressInput = this.page.locator('#billing_email');
+    this.countyList = this.page.locator('[id$="_country"]');
+    this.streetInput = this.page.locator('[id$="_address_1"]');
+    this.postCodeInput = this.page.locator('[id$="_postcode"]');
+    this.cityInput = this.page.locator('[id$="_city"]');
+    this.stateList = this.page.locator('[id$="_state"]');
+    this.phoneNumberInput = this.page.locator('[id$="_phone"]');
+    this.emailAddressInput = this.page.locator('[id$="_email"]');
     this.saveAddress = this.page.getByRole('button', { name: 'Zapisz adres' });
+
+    // A shipping address
+    this.addShippingAddressIcon = this.page.getByRole('link', {
+      name: 'Dodaj Adres do wysyłki',
+    });
 
     this.header = this.page.getByRole('heading');
     this.alert = this.page.getByRole('alert');
@@ -108,21 +116,46 @@ export class MainAccountPage extends BasePage {
     await this.addressLink.click();
   }
 
-  async clickEditBillingAddressIcon(): Promise<void> {
-    await this.editBillingAddressIcon.click();
+  async clickAddBillingAddressIcon(): Promise<void> {
+    await this.addBillingAddressIcon.click();
+  }
+
+  async clickAddShippingAddressIcon(): Promise<void> {
+    await this.addShippingAddressIcon.click();
   }
 
   async fillBillingAddressForm(): Promise<void> {
+    await this.firstNameInput.fill(
+      faker.person.firstName().replace(/[^A-Za-z]/g, ''),
+    );
+    await this.lastNameInput.fill(
+      faker.person.lastName().replace(/[^A-Za-z]/g, ''),
+    );
     await this.countyList.selectOption('Niemcy');
     await this.streetInput.fill(
       faker.location.streetAddress({ useFullAddress: true }),
     );
-    await this.postCodeInput.fill(faker.location.zipCode({ format: '##-###' }));
+    await this.postCodeInput.fill(faker.location.zipCode({ format: '#####' }));
     await this.cityInput.fill(faker.location.city());
     await this.stateList.selectOption('Hesja');
     await this.phoneNumberInput.fill(
       faker.phone.number({ style: 'international' }),
     );
+  }
+
+  async fillShippingAddressForm(): Promise<void> {
+    await this.firstNameInput.fill(
+      faker.person.firstName().replace(/[^A-Za-z]/g, ''),
+    );
+    await this.lastNameInput.fill(
+      faker.person.lastName().replace(/[^A-Za-z]/g, ''),
+    );
+    await this.countyList.selectOption('Polska');
+    await this.streetInput.fill(
+      faker.location.streetAddress({ useFullAddress: true }),
+    );
+    await this.postCodeInput.fill(faker.location.zipCode({ format: '##-###' }));
+    await this.cityInput.fill(faker.location.city());
   }
 
   async clickSaveAddressButton(): Promise<void> {
