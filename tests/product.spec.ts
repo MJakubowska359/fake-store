@@ -90,4 +90,26 @@ test.describe('Verify product', () => {
       expectedProductAfterAddedToWishlist,
     );
   });
+
+  test('Go to the previous and next product', async () => {
+    // Arrange
+    const expectedPreviousProductHeader =
+      'Zmień swoją sylwetkę! Yoga na Malcie';
+    const expectedNextProductHeader = 'Wczasy relaksacyjne z yogą w Toskanii';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickYogaAndPilatesCategory();
+    await productCategoryPage.clickYogaInTuscany();
+    await productPage.goToPreviousProduct();
+    await expect(productPage.header.first()).toHaveText(
+      expectedPreviousProductHeader,
+    );
+    await productPage.goToNextProduct();
+
+    // Assert
+    await expect(productPage.header.first()).toHaveText(
+      expectedNextProductHeader,
+    );
+  });
 });

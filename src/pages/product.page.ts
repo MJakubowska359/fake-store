@@ -8,6 +8,8 @@ export class ProductPage extends BasePage {
   showBasketLink: Locator;
   addToWishlist: Locator;
   quantityInput: Locator;
+  previousProduct: Locator;
+  nextProduct: Locator;
 
   header: Locator;
   popup: Locator;
@@ -26,6 +28,8 @@ export class ProductPage extends BasePage {
     this.quantityInput = page.getByRole('spinbutton', {
       name: 'Ilość produktu',
     });
+    this.previousProduct = page.locator('a[rel="prev"]');
+    this.nextProduct = page.locator('a[rel="next"]');
 
     this.header = page.getByRole('heading');
     this.popup = page.locator('[id$="popup-message"]');
@@ -50,5 +54,13 @@ export class ProductPage extends BasePage {
 
   async addTwoQuantityOfProduct(): Promise<void> {
     await this.quantityInput.fill('2');
+  }
+
+  async goToPreviousProduct(): Promise<void> {
+    await this.previousProduct.click();
+  }
+
+  async goToNextProduct(): Promise<void> {
+    await this.nextProduct.click();
   }
 }
