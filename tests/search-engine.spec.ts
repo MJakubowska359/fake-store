@@ -1,11 +1,14 @@
 import { BasePage } from '../src/pages/base.page';
+import { ProductPage } from '../src/pages/product.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify search engine', () => {
   let basePage: BasePage;
+  let productPage: ProductPage;
 
   test.beforeEach(async ({ page }) => {
     basePage = new BasePage(page);
+    productPage = new ProductPage(page);
 
     await basePage.goto();
   });
@@ -20,5 +23,16 @@ test.describe('Verify search engine', () => {
 
     // Assert
     await expect(basePage.information).toBeVisible();
+  });
+
+  test('Enter part of the product name in the search engine', async () => {
+    // Arrange
+    const expectedHeader = 'Grecja – Limnos';
+
+    // Act
+    await basePage.fillPartOfProductNameInSearchEngine();
+
+    // Assert
+    await expect(productPage.header.first()).toHaveText(expectedHeader);
   });
 });

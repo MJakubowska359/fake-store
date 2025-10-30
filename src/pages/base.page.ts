@@ -36,4 +36,9 @@ export class BasePage {
     await this.searchEngineInput.fill('2 599,00 zł');
     await this.searchEngineInput.press('Enter');
   }
+
+  async fillPartOfProductNameInSearchEngine(): Promise<void> {
+    await this.searchEngineInput.fill('Grecja');
+    await this.searchEngineInput.press('Enter');
+  }
 }
