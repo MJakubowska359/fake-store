@@ -6,6 +6,7 @@ export class BasePage {
   productAmount: Locator;
   previewBasketContent: Locator;
   searchEngineInput: Locator;
+  searchResult: Locator;
 
   header: Locator;
   information: Locator;
@@ -22,6 +23,7 @@ export class BasePage {
     this.information = page.getByText(
       'Nie znaleziono produktów, których szukasz.',
     );
+    this.searchResult = page.locator('.product');
   }
 
   async goto(): Promise<void> {
@@ -39,6 +41,11 @@ export class BasePage {
 
   async fillPartOfProductNameInSearchEngine(): Promise<void> {
     await this.searchEngineInput.fill('Grecja');
+    await this.searchEngineInput.press('Enter');
+  }
+
+  async fillLettersInSearchEngine(): Promise<void> {
+    await this.searchEngineInput.fill('win');
     await this.searchEngineInput.press('Enter');
   }
 }

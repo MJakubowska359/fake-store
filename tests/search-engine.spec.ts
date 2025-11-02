@@ -35,4 +35,12 @@ test.describe('Verify search engine', () => {
     // Assert
     await expect(productPage.header.first()).toHaveText(expectedHeader);
   });
+
+  test('Enter letters from product names in the search engine', async () => {
+    // Act
+    await basePage.fillLettersInSearchEngine();
+
+    // Assert
+    await expect(basePage.searchResult).toHaveCount(4);
+  });
 });
