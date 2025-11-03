@@ -1,4 +1,6 @@
 import { BasePage } from '../src/pages/base.page';
+import { BasketPage } from '../src/pages/basket.page';
+import { MainPage } from '../src/pages/main.page';
 import { ProductCategoryPage } from '../src/pages/product-category.page';
 import { ProductPage } from '../src/pages/product.page';
 import { ShopPage } from '../src/pages/shop.page';
@@ -11,6 +13,8 @@ test.describe('Verify product', () => {
   let productPage: ProductPage;
   let basePage: BasePage;
   let wishlist: WishlistPage;
+  let mainPage: MainPage;
+  let basketPage: BasketPage;
 
   test.beforeEach(async ({ page }) => {
     shopPage = new ShopPage(page);
@@ -18,9 +22,11 @@ test.describe('Verify product', () => {
     productPage = new ProductPage(page);
     basePage = new BasePage(page);
     wishlist = new WishlistPage(page);
+    mainPage = new MainPage(page);
+    basketPage = new BasketPage(page);
   });
 
-  test('Add the product to the basket', async () => {
+  test('Add the product from the product page to the basket', async () => {
     // Arrange
     const expectedAmountInBasketBeforeAddedProduct = '0,00 zł';
     const expectedAmountInBasketAfterAddedProduct = '4 299,00 zł';
@@ -46,6 +52,23 @@ test.describe('Verify product', () => {
     // Assert
     await expect(basePage.previewBasketContent).toHaveText(
       expectedBasketPreviewContent,
+    );
+  });
+
+  test('Add the product from the main page to the basket', async () => {
+    // Arrange
+    const expectedProductNameInBasket =
+      'Windsurfing w Lanzarote (Costa Teguise)';
+
+    // Act
+    await mainPage.goto();
+    await mainPage.addFirstProductFromPopularProductsToBasket();
+    await expect(mainPage.showBasketLink).toBeVisible();
+    await mainPage.clickShowBasketLink();
+
+    // Assert
+    await expect(basketPage.productNameInTable).toHaveText(
+      expectedProductNameInBasket,
     );
   });
 
