@@ -16,6 +16,8 @@ export class ProductCategoryPage extends BasePage {
   sailingInMasuria: Locator;
   addToBasketButton: Locator;
   showBasketLink: Locator;
+  sortProduct: Locator;
+  priceUnderProduct: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -56,6 +58,8 @@ export class ProductCategoryPage extends BasePage {
     this.showBasketLink = page.getByRole('link', {
       name: 'Zobacz koszyk',
     });
+    this.sortProduct = page.locator('.orderby');
+    this.priceUnderProduct = page.locator('.price');
   }
 
   async clickWindsurfingInGreece(): Promise<void> {
@@ -104,5 +108,9 @@ export class ProductCategoryPage extends BasePage {
 
   async clickShowBasketButton(): Promise<void> {
     await this.showBasketLink.click();
+  }
+
+  async sortByLowestPrice(): Promise<void> {
+    await this.sortProduct.first().selectOption('price');
   }
 }
