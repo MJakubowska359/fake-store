@@ -113,4 +113,8 @@ export class ProductCategoryPage extends BasePage {
   async sortByLowestPrice(): Promise<void> {
     await this.sortProduct.first().selectOption('price');
   }
+
+  async sortByHighestPrice(): Promise<void> {
+    await this.sortProduct.first().selectOption('price-desc');
+  }
 }

@@ -29,4 +29,23 @@ test.describe('Verify product category page', () => {
       expectedLastProductPrice,
     );
   });
+
+  test('Sort products by highest price', async () => {
+    // Arrange
+    const expectedFirstProductPrice = '5 399,00 zł';
+    const expectedLastProductPrice = '2 900,00 zł';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickWindsurfingCategory();
+    await productCategoryPage.sortByHighestPrice();
+
+    // Assert
+    await expect(productCategoryPage.priceUnderProduct.first()).toHaveText(
+      expectedFirstProductPrice,
+    );
+    await expect(productCategoryPage.priceUnderProduct.last()).toHaveText(
+      expectedLastProductPrice,
+    );
+  });
 });
