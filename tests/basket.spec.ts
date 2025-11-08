@@ -257,7 +257,7 @@ test.describe('Verify basket', () => {
     );
   });
 
-  test('Update the quantity of the product in the basket', async () => {
+  test('Increase the quantity of the product in the basket', async () => {
     // Arrange
     const expectedAlertContent = 'Koszyk zaktualizowany.';
 
@@ -265,13 +265,14 @@ test.describe('Verify basket', () => {
     await shopPage.goto();
     await shopPage.clickYogaAndPilatesCategory();
     await productCategoryPage.clickYogaInSpain();
-    await productPage.addTwoQuantityOfProduct();
     await productPage.clickAddToBasketButton();
     await productPage.clickShowBasketButton();
     await expect(basketPage.updateBasketButton).toBeDisabled();
-    await basketPage.lowerQuantityOfProductInBasket();
+    await basketPage.increaseQuantityOfProductInBasket();
     await expect(basketPage.updateBasketButton).toBeEnabled();
+    await expect(basketPage.productPriceInTable).toHaveText('2 900,00 zł');
     await basketPage.clickUpdateBasketButton();
+    await expect(basketPage.subtotalProductInTable).toHaveText('5 800,00 zł');
 
     // Assert
     await expect(basketPage.alert).toHaveText(expectedAlertContent);
