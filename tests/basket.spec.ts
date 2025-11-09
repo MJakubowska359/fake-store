@@ -278,6 +278,28 @@ test.describe('Verify basket', () => {
     await expect(basketPage.alert).toHaveText(expectedAlertContent);
   });
 
+  test('Decrease the quantity of the product in the basket', async () => {
+    // Arrange
+    const expectedAlertContent = 'Koszyk zaktualizowany.';
+
+    // Act
+    await shopPage.goto();
+    await shopPage.clickClimbingCategory();
+    await productCategoryPage.clickClimbingInIslandPeak();
+    await productPage.addThreeQuantityOfProduct();
+    await productPage.clickAddToBasketButton();
+    await productPage.clickShowBasketButton();
+    await expect(basketPage.updateBasketButton).toBeDisabled();
+    await basketPage.decreaseQuantityOfProductInBasket();
+    await expect(basketPage.updateBasketButton).toBeEnabled();
+    await expect(basketPage.subtotalProductInTable).toHaveText('24 600,00 zł');
+    await basketPage.clickUpdateBasketButton();
+    await expect(basketPage.subtotalProductInTable).toHaveText('16 400,00 zł');
+
+    // Assert
+    await expect(basketPage.alert).toHaveText(expectedAlertContent);
+  });
+
   test('Apply a 250 PLN coupon to the basket (used solo)', async () => {
     // Act
     await shopPage.goto();

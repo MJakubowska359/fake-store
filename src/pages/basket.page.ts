@@ -135,6 +135,10 @@ export class BasketPage extends BasePage {
     await this.quantityProductInTable.fill('3');
   }
 
+  async decreaseQuantityOfProductInBasket(): Promise<void> {
+    await this.quantityProductInTable.fill('2');
+  }
+
   async clickUpdateBasketButton(): Promise<void> {
     await this.updateBasketButton.click();
   }

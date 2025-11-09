@@ -52,6 +52,10 @@ export class ProductPage extends BasePage {
     await this.quantityInput.fill('15340');
   }
 
+  async addThreeQuantityOfProduct(): Promise<void> {
+    await this.quantityInput.fill('3');
+  }
+
   async goToPreviousProduct(): Promise<void> {
     await this.previousProduct.click();
   }
