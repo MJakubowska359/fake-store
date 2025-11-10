@@ -14,6 +14,7 @@ export class ProductPage extends BasePage {
   header: Locator;
   popup: Locator;
   alert: Locator;
+  productAdded: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -34,6 +35,7 @@ export class ProductPage extends BasePage {
     this.header = page.getByRole('heading');
     this.popup = page.locator('[id$="popup-message"]');
     this.alert = page.getByRole('alert');
+    this.productAdded = page.getByText('Produkt dodany!');
   }
 
   async clickAddToBasketButton(): Promise<void> {

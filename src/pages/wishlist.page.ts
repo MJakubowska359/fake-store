@@ -31,4 +31,8 @@ export class WishlistPage extends BasePage {
     await this.addToBasketLink.click();
     await this.page.waitForEvent('load');
   }
+
+  async clickProductNameInTable(): Promise<void> {
+    await this.productNameInTable.click();
+  }
 }

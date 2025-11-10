@@ -24,6 +24,7 @@ test.describe('Verify wishlist', () => {
     await productCategoryPage.clickWindsurfingInGreece();
     await productPage.clickAddToWishlistButton();
     await wishlistPage.goto();
+    await page.reload();
   });
 
   test('Remove the product from the wishlist', async () => {
@@ -46,5 +47,17 @@ test.describe('Verify wishlist', () => {
 
     // Assert
     await expect(basketPage.header.first()).toHaveText(expectedHeader);
+  });
+
+  test('Go back to the product from the wishlist', async () => {
+    // Arrange
+    const expectedHeader = 'Grecja – Limnos';
+
+    // Act
+    await wishlistPage.clickProductNameInTable();
+    await expect(productPage.header.first()).toHaveText(expectedHeader);
+
+    // Assert
+    await expect(productPage.productAdded).toBeVisible();
   });
 });
