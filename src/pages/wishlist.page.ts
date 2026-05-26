@@ -16,7 +16,7 @@ export class WishlistPage extends BasePage {
     this.emptyWishlist = page.locator('.wishlist-empty');
     this.deleteButton = page.getByTitle('Usuń');
     this.productNameInTable = page.locator('td.product-name').getByRole('link');
-    this.addToBasketLink = page.getByRole('link', {
+    this.addToBasketLink = page.getByRole('button', {
       name: 'Dodaj do koszyka',
     });
 
