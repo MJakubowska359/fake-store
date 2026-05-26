@@ -3,7 +3,7 @@ import { RegisterUserModel } from '../src/models/user.model';
 import { RegisterPage } from '../src/pages/register.page';
 import { expect, test } from '@playwright/test';
 
-test.describe('Verify register', () => {
+test.describe('Register @smoke', () => {
   let registerPage: RegisterPage;
   let registerUserData: RegisterUserModel;
 
@@ -14,7 +14,7 @@ test.describe('Verify register', () => {
     await registerPage.goto();
   });
 
-  test('Register using correct data', async () => {
+  test('User can register using valid data', async () => {
     // Arrange
     const expectedHeader = 'Moje konto';
 
