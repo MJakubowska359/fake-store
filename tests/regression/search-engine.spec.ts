@@ -1,7 +1,7 @@
 import { BasePage } from '../../src/pages/base.page';
 import { expect, test } from '@playwright/test';
 
-test.describe('Verify search engine', () => {
+test.describe('Search engine @regression', () => {
   let basePage: BasePage;
 
   test.beforeEach(async ({ page }) => {
