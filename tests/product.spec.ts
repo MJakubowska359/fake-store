@@ -4,7 +4,6 @@ import { MainPage } from '../src/pages/main.page';
 import { ProductCategoryPage } from '../src/pages/product-category.page';
 import { ProductPage } from '../src/pages/product.page';
 import { ShopPage } from '../src/pages/shop.page';
-import { WishlistPage } from '../src/pages/wishlist.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify product', () => {
@@ -12,7 +11,6 @@ test.describe('Verify product', () => {
   let productCategoryPage: ProductCategoryPage;
   let productPage: ProductPage;
   let basePage: BasePage;
-  let wishlist: WishlistPage;
   let mainPage: MainPage;
   let basketPage: BasketPage;
 
@@ -21,7 +19,6 @@ test.describe('Verify product', () => {
     productCategoryPage = new ProductCategoryPage(page);
     productPage = new ProductPage(page);
     basePage = new BasePage(page);
-    wishlist = new WishlistPage(page);
     mainPage = new MainPage(page);
     basketPage = new BasketPage(page);
   });
@@ -87,31 +84,6 @@ test.describe('Verify product', () => {
 
     // Assert
     await expect(productPage.alert).toContainText(expectedAlertContent);
-  });
-
-  test('Add the product to the wishlist', async () => {
-    // Arrange
-    const expectedTextOfEmptyWishlist = 'No products added to the wishlist';
-    const expectedPopupContent = 'Produkt dodany!';
-    const expectedProductAfterAddedToWishlist =
-      'Wczasy relaksacyjne z yogą w Toskanii';
-
-    // Act
-    await wishlist.goto();
-    await expect(wishlist.emptyWishlist).toHaveText(
-      expectedTextOfEmptyWishlist,
-    );
-    await shopPage.goto();
-    await shopPage.clickYogaAndPilatesCategory();
-    await productCategoryPage.clickYogaInTuscany();
-    await productPage.clickAddToWishlistButton();
-    await expect(productPage.popup).toHaveText(expectedPopupContent);
-    await wishlist.goto();
-
-    // Assert
-    await expect(wishlist.productNameInTable).toHaveText(
-      expectedProductAfterAddedToWishlist,
-    );
   });
 
   test('Go to the previous and next product', async () => {

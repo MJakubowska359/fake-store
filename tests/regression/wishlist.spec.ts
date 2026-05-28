@@ -24,6 +24,31 @@ test.describe('Wishlist @regression', () => {
     await page.reload();
   });
 
+  test('User can add a product to the wishlist', async () => {
+    // Arrange
+    const expectedTextOfEmptyWishlist = 'No products added to the wishlist';
+    const expectedPopupContent = 'Produkt dodany!';
+    const expectedProductAfterAddedToWishlist =
+      'Wczasy relaksacyjne z yogą w Toskanii';
+
+    // Act
+    await wishlistPage.goto();
+    await expect(wishlistPage.emptyWishlist).toHaveText(
+      expectedTextOfEmptyWishlist,
+    );
+    await shopPage.goto();
+    await shopPage.clickYogaAndPilatesCategory();
+    await productCategoryPage.clickYogaInTuscany();
+    await productPage.clickAddToWishlistButton();
+    await expect(productPage.popup).toHaveText(expectedPopupContent);
+    await wishlistPage.goto();
+
+    // Assert
+    await expect(wishlistPage.productNameInTable).toHaveText(
+      expectedProductAfterAddedToWishlist,
+    );
+  });
+
   test('User can remove a product from the wishlist', async () => {
     // Arrange
     const expectedAlertContent = 'Produkt został usunięty.';
